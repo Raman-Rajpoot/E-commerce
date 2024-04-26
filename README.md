@@ -25,11 +25,9 @@ Contributing
 We welcome contributions from the community to improve and enhance our frontend interface for the ecommerce platform. Whether you're a frontend developer, designer, or enthusiast, feel free to submit pull requests, report issues, or suggest new features.
 
 
-
-<h4>Contact<h4>
-If you have any questions, suggestions, or feedback regarding the frontend interface, please contact us at <a href:'mail:ramanrajpoot42@gmail.com'>ramanrajpoot42@gmail.com.</a>
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<h4>Contact</h4>
+<br/>
+If you have any questions, suggestions, or feedback regarding the frontend interface, please contact us at <a href="mailto:ramanrajpoot42@gmail.com">ramanrajpoot42@gmail.com</a>.
 
 
 
