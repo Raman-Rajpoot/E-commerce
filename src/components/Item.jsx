@@ -8,12 +8,14 @@ import './Item.css';
 import MyContext from '../Context/States/Context';
 import Cartcontext from '../Context/Cart_contex/Cart_contex';
 import Buycontext from '../Context/Buy_context/Buy_context';
+import LoginContext from '../Context/Login_context/LoginContext';
 // import Ccontext from '../Context/Buy_contex/Cart_contex';
 
 const Item = ({productID,productImage,productName,productOldPrice,productNewPrice}) => {
   const Cart= useContext(MyContext);
  const {cartitem,addcartitem} = useContext(Cartcontext)
  const {buyitem,addbuyitem} = useContext(Buycontext)
+ const Login_Context = useContext(LoginContext)
   //  console.log(productQuantity);
   return (
     
@@ -28,11 +30,14 @@ const Item = ({productID,productImage,productName,productOldPrice,productNewPric
         <div className='oldPrice'>${productOldPrice}</div>
         </div>
         <button className='Add_Cart' onClick={()=>{
-         
+        //  if(Login_Context.isLogin==null){
+        //   return;
+        // }
         let isexist=  cartitem.some((item)=>{
              return item.productID===productID;
             
           });
+          
           // console.log(isexist)
           if(!isexist){ 
             Cart.changeCounter();

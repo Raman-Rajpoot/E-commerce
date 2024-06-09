@@ -1,7 +1,8 @@
 .cart-page{
     width: 70vw;
     min-height: 100vh;
-    margin-left: 13vw;
+    margin-left: auto;
+    margin-right: auto;
   
 }
 .myCart-label{
@@ -29,3 +30,19 @@
     margin-right: auto;
    
   }
+  @media screen and (max-width: 900px) {
+    .cart-page{
+        width: 90vw;
+        min-height: 100vh;
+        margin-left: auto;
+        margin-right: auto;
+      
+    }
+    .title-row{
+        width: 93vw;
+
+    }
+    .hr{
+        width: 90vw; 
+      }
+}

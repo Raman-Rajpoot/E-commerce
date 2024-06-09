@@ -16,8 +16,10 @@ import Kids from './components/productALL/Kids.jsx';
 // import Popular from './components/Popular.jsx';
 import Login from './components/login.jsx';
 import Navbar from './components/Navbar.jsx';
+import User from './components/User.jsx';
 import Shop from './components/Shop.jsx';
 import ProductBuy from './components/ProductBuy.jsx';
+import SignUp from './components/SignUp.jsx';
 const router = createBrowserRouter(createRoutesFromElements(
        <Route path="/"  element={<App/> }>
          {/* <Route path='' element={<Shop/>} /> */}
@@ -28,6 +30,9 @@ const router = createBrowserRouter(createRoutesFromElements(
           <Route  path="login"  element={<Login />}/>
           <Route  path="cart"  element={<Add_cart />}/>
           <Route  path="product" element={<ProductBuy/>} />
+          <Route path="profile" element= {<User/>} />
+          <Route path="signUp" element={<SignUp />}/>
+          
        </Route>
       
 ));

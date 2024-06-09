@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { BrowserRouter as Router, Route, NavLink, Link, Switch } from "react-router-dom";
 // import css
 import './login.css';
 
@@ -13,9 +13,11 @@ const login = () => {
         <input type='password' placeholder='Enter Password' required className='login_password'/>
         <input type="submit" value="Continue" className='login_btn' />
        </form>
-       <div className='signUp'> Sign Up </div>
+       <NavLink to="/signUp" style={{textDecoration:"none"}}>
+            <div className='signUp'> Sign Up </div>
+       </NavLink>
        <div className='T&C'>
-       <input type="checkbox" name="T&C" id='checkBtn' />
+       <input type="checkbox" name="T&C" id='checkBtn' checked/>
        <label htmlFor="checkBtn" className='T&C_label'> I accept all <span>Terms and conditions</span> .</label>
        </div>
        </div>

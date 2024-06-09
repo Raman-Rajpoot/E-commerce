@@ -21,11 +21,11 @@ function Add_cart() {
         <h2 className='myCart-label'>My Cart</h2>
         <div className='title-row'>
              <div>Product</div>
-              <div style={{width:'35%'}}>
+              <div style={{width:'45%'}}>
                 Title
              </div>
         
-             <div style={{marginLeft:'1.8rem'}}>price</div>
+             <div >price</div>
              <div>Remove</div>
              </div>
              <div className="hr"></div>

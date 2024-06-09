@@ -7,17 +7,25 @@
     justify-content: space-between;
     align-items: center;
 }
-.Navbar_logo{   
+.Navbar_logo a{   
     padding: 0.3rem;
     width: 15%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     object-fit: fill;
+    cursor: pointer; 
+    color: black;
 }
+/* .Navbar_logo Link {
+     display: flex; 
+     z-index: 100;
+    color: black;
+} */
 .Navbar_logo .logo{
     height: 2.65rem;
-    object-fit: contain; 
+    object-fit: contain;
+    
 }
 .logo_name{
     font-size: 1.5rem;
@@ -187,6 +195,13 @@
      font-size: 1rem;
     font-weight: 400;
    
+}
+.profileImg{
+    width: 10%;
+    object-fit: cover;
+}
+.profile{
+    width: 50%;
 }
 .cart{ 
     position: static;

@@ -15,6 +15,7 @@ function ProductBuy() {
   const {buyitem,addbuyitem} = useContext(Buycontext)
   const {cartitem,addcartitem} = useContext(Cartcontext)
   const Cart= useContext(MyContext);
+  
   const [quantity,setquantity]= useState(1);
   return (buyitem==null ?<div className='empty'></div> : (
     <div>
@@ -23,10 +24,10 @@ function ProductBuy() {
          <img src={buyitem.productImage} alt="img" />
        </div>
        <div className='pt2'>
-        <div className="desc">
-          {buyitem.productName}
-        </div>
-        <div className="rating">
+         <div className="desc">
+           {buyitem.productName}
+         </div>
+         <div className="rating">
           <div>
             <img src={starIcon} alt="" />
             <img src={starIcon} alt="" />
@@ -34,16 +35,16 @@ function ProductBuy() {
             <img src={starIcon} alt="" />
           </div>
           <div>4.0 </div>
-        </div>
-        <div className='price'>
-        <div className='oldPrice'>
-          ${buyitem.productOldPrice}
-        </div>
-        <div className="newPrice">
+         </div>
+         <div className='price'>
+         <div className='oldPrice'>
+           ${buyitem.productOldPrice}
+         </div>
+         <div className="newPrice">
             ${buyitem.productNewPrice}
-        </div>
-        </div>
-        <div className='policy'>
+         </div>
+         </div>
+         <div className='policy'>
               <div className='replacement'>
                      <img src={replacement} alt="img" />
                      <div>7 days replacement policy</div>
@@ -75,6 +76,7 @@ function ProductBuy() {
         </div>
         </div>
         <div className='pt3'>
+          <div className="cal">
           <div className='quantity-label'>Quantity : </div>
           <div className='quantity'>
             <img src={plus} alt="img-inc" className='plus' onClick={()=>{if(quantity<9)setquantity(quantity+1)}}/>
@@ -90,9 +92,9 @@ function ProductBuy() {
           <div className='tprice-label'> Total Price : </div>
            <div className='tprice-amt'> ${buyitem.productNewPrice * quantity}</div>
           </div>
-
+          </div>
           <div className='btn'>
-            <button className='buybtn'>BUY</button> <br />
+            <button className='buybtn' onClick={()=>{alert('YOUR ORDER PLACED')}}>BUY</button> <br />
             <button className='cartbtn'  onClick={()=>{
                  let isexist=  cartitem.some((item)=>{
                       return item.productID===buyitem.productID;
