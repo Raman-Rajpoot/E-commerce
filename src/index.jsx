@@ -1,24 +1,20 @@
-import React, { StrictMode , useContext} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import Popular from "./components/Popular.jsx";
 import App from './App.jsx';
-import { BrowserRouter } from 'react-router-dom';
+import Popular from "./components/Popular.jsx";
+import './index.css';
 // import {useContext} from ""
-import {MyState} from './Context/States/State.js';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
-import Layout from './Layout';
-import Female from './components/productALL/Female.jsx';
-import Male from './components/productALL/male.jsx';
 import Add_cart from './components/Add_cart.jsx';
+import Female from './components/productALL/Female.jsx';
 import Kids from './components/productALL/Kids.jsx';
+import Male from './components/productALL/male.jsx';
 
 // import Popular from './components/Popular.jsx';
 import Login from './components/login.jsx';
-import Navbar from './components/Navbar.jsx';
-import User from './components/User.jsx';
-import Shop from './components/Shop.jsx';
+// import User from './components/User.jsx';
 import ProductBuy from './components/ProductBuy.jsx';
+import Profile from './components/Profile.jsx';
 import SignUp from './components/SignUp.jsx';
 const router = createBrowserRouter(createRoutesFromElements(
        <Route path="/"  element={<App/> }>
@@ -30,7 +26,7 @@ const router = createBrowserRouter(createRoutesFromElements(
           <Route  path="login"  element={<Login />}/>
           <Route  path="cart"  element={<Add_cart />}/>
           <Route  path="product" element={<ProductBuy/>} />
-          <Route path="profile" element= {<User/>} />
+          <Route path="profile" element= {<Profile/>} />
           <Route path="signUp" element={<SignUp />}/>
           
        </Route>

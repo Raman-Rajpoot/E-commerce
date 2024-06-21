@@ -34,17 +34,17 @@
     margin-left: 0.4rem;
 }
 .Navbar_Menu{
-    width: 25vw;
+    width: 22vw;
     height: 2rem;
     font-size: 1rem;
     font-weight: 400;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
 }
 .Nav-cnt{
-    width: 60vw;
+    width: 65vw;
     height: 3.3rem;
     background-color: #fff;
     margin: 0;
@@ -145,6 +145,77 @@
 .menu-icon img{
     display: none;
 }
+.search-button i {
+    font-size: 1.5em;
+  }
+  
+   .suggestions, .search-history {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+    position: absolute;
+    top: 3.3rem;
+    left: 30%;
+  } 
+  
+  .suggestions ul, .search-history ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .suggestions li, .search-history li {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+  } 
+  .search-history{
+    display: none;
+  }
+ .search-input:active.search-history{
+    display: inline-block;
+ }
+  
+  /* .suggestions li:hover, .search-history li:hover {
+    background-color: #f1f1f1;
+  } */
+  
+  .search-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+     /* margin-left: 10px; */
+    padding: 1px;
+    background-color: #f3f0f0f4;
+    border-radius: 4px;
+  }
+  
+  .search-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    width: 200px;
+    border: none;
+    outline: none;
+    transition: width 0.3s ease;
+  }
+  
+  .search-input:focus {
+    width: 300px;
+  }
+  
+  .search-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    margin-left: 10px;
+    padding-right: 5px;
+  }
+  
+  .search-button i {
+    font-size: 1.5em;
+  }
+  
 @media screen and (max-width: 1100px) {
     .Navbar{
       position: relative;
@@ -221,6 +292,7 @@
     gap: 2rem;
 }
 .menu-icon{
+    margin-top: 5.5px;
     display: inline-block;
 }
 .menu-icon img{
@@ -229,7 +301,14 @@
 .vis{
     display: flex;
         right: 0%;
+    width: 30vw;
+}
+.search-icon-container{
+    margin-right: 10vw;
     
+}
+.search-button{
+    margin: 10px;
 }
 
 }
@@ -246,5 +325,11 @@
     .Navbar_logo .logo{
         height: 2rem;
         object-fit: fill; 
+    }
+}
+
+@media screen and (max-width: 520px){
+    .search-button,.search-input{
+        display: none;
     }
 }

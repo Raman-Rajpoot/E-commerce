@@ -1,3 +1,6 @@
+body{
+    position: relative;
+}
 .Item{
     width: 18vw;
     background-color: #fff;
@@ -63,6 +66,24 @@
 .Add_Cart:active{
     background-color: rgba(7, 76, 29, 0.828);
 }
+.alert-container {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 16vw;
+    transition: all 0s;
+    text-align: center;
+  }
+  
+  .alert-inner {
+    font-size: 16px;
+  }
 @media screen and (max-width: 950px) {
     .Item{
         width: 25vw;

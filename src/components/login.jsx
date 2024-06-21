@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, NavLink, Link, Switch } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 // import css
 import './login.css';
 
@@ -9,7 +9,7 @@ const login = () => {
        <div className='login_form'>
        <h2 className=' loginText'>Login</h2>
        <form action="./action.php">
-        <input type="email" placeholder='Enter Email' required className='login_email'/>
+        <input type="email" placeholder='Enter Email / username' required className='login_email'/>
         <input type='password' placeholder='Enter Password' required className='login_password'/>
         <input type="submit" value="Continue" className='login_btn' />
        </form>

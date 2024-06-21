@@ -56,24 +56,20 @@
   }
   
   /* Specific styling for ID selectors if needed */
-  #item-name {
-    /* Custom styles for item name input */
-  }
+  /* #item-name {
+   }
   
   #description {
-    /* Custom styles for description input */
+  
   }
   
   #price {
-    /* Custom styles for price input */
-  }
+   }
   
   #image {
-    /* Custom styles for image input */
-  }
+   } */
   
-  /* Responsive Styling */
-  @media (max-width: 768px) {
+   @media (max-width: 768px) {
     .upload-form {
       padding: 15px ;
     }

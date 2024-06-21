@@ -36,11 +36,27 @@ body {
     display: block;
     background-color: #f9f9f9;
     padding: 10px;
+    height: 30px;
     border: 1px solid #ddd;
     border-radius: 5px;
     word-wrap: break-word;
 }
-
+#address{
+    text-align: left;
+    height: 80px;
+}
+.editbtn{
+    padding: 10px 20px;
+    border: none;
+    background-color: #fe0303;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .editbtn:hover {
+    background-color: #c60000df;
+  }
 @media (max-width: 600px) {
     .profile-container {
         padding: 15px;

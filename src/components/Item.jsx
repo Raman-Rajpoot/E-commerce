@@ -17,6 +17,15 @@ const Item = ({productID,productImage,productName,productOldPrice,productNewPric
  const {buyitem,addbuyitem} = useContext(Buycontext)
  const Login_Context = useContext(LoginContext)
   //  console.log(productQuantity);
+  const [ isAlertVisible, setIsAlertVisible ] = React.useState(false);
+  const [exist, changeExist]= useState(false);
+  const showAlert = () => {
+    setIsAlertVisible(true);
+    setTimeout(() => {
+      setIsAlertVisible(false);
+    }, 1000); // Hide the alert after 3 seconds
+  };
+
   return (
     
     <div className='Item'>
@@ -33,18 +42,26 @@ const Item = ({productID,productImage,productName,productOldPrice,productNewPric
         //  if(Login_Context.isLogin==null){
         //   return;
         // }
+
         let isexist=  cartitem.some((item)=>{
              return item.productID===productID;
             
           });
-          
+          changeExist(isexist);
           // console.log(isexist)
           if(!isexist){ 
             Cart.changeCounter();
             addcartitem([{productID,productImage,productName,productNewPrice,productOldPrice},...cartitem]);
         }
+        showAlert()
         }}>Add Cart</button>
-        
+
+        {isAlertVisible && (
+        <div className='alert-container'  style={exist? {backgroundColor:"red"}:{backgroundColor:"green"} }>
+          <div className='alert-inner'>{!exist ?"Item added successfully" : "Item already added !"} </div>
+        </div>
+
+      )}
         </div>
        
     </div>

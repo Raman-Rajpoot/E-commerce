@@ -7,10 +7,12 @@ import MyContext from '../Context/States/Context';
 import Cartcontext from '../Context/Cart_contex/Cart_contex';
 // import Cartcontext from '../Context/Cart_contex/Cart_contex';
 import Buycontext from '../Context/Buy_context/Buy_context';
+
 // key,img,title,price,quantity
 function One_cart(item) {
   const {cartitem,addcartitem} = useContext(Cartcontext);
   const {buyitem,addbuyitem} = useContext(Buycontext);
+  const Cart = useContext(MyContext)
   console.log(item.id)
    const RemoveItem=(id)=>{
    console.log("removing id:",id,cartitem)
@@ -39,7 +41,11 @@ function One_cart(item) {
        
     </div>
     </Link>
-    <img src={cross} alt="Remove" className='remove-icon'  onClick={()=>RemoveItem(item.id)}/>
+    <img src={cross} alt="Remove" className='remove-icon'  onClick={()=>{
+Cart.changeCounter(Cart.counter-1);
+    RemoveItem(item.id)
+    }
+    }/>
     </div>
   )
 

@@ -1,22 +1,32 @@
-import React, { useState,useContext } from 'react'
-import replacement from '../images/replacement.png'
+import React, { useContext, useState } from 'react'
+import Buycontext from '../Context/Buy_context/Buy_context'
+import Cartcontext from '../Context/Cart_contex/Cart_contex'
+import MyContext from '../Context/States/Context'
 import cashOndly from '../images/cash0ndl.png'
 import freedlvry from '../images/free_shipping.png'
-import starIcon from '../images/star_icon.png'
-import plus from '../images/plus.png'
 import minus from '../images/minus.png'
-import Buycontext from '../Context/Buy_context/Buy_context';
-import MyContext from '../Context/States/Context';
-import Cartcontext from '../Context/Cart_contex/Cart_contex';
-import './ProductBuy.css'
+import new_collection from '../images/new_collections.js'
+import plus from '../images/plus.png'
+import replacement from '../images/replacement.png'
+import starIcon from '../images/star_icon.png'
 import Item from './Item.jsx'
-import new_collection from '../images/new_collections.js';
+import './ProductBuy.css'
 function ProductBuy() {
   const {buyitem,addbuyitem} = useContext(Buycontext)
   const {cartitem,addcartitem} = useContext(Cartcontext)
   const Cart= useContext(MyContext);
   
   const [quantity,setquantity]= useState(1);
+
+  const [ isAlertVisible, setIsAlertVisible ] = React.useState(false);
+  const [exist, changeExist]= useState(false);
+  const showAlert = () => {
+    setIsAlertVisible(true);
+    setTimeout(() => {
+      setIsAlertVisible(false);
+    }, 1000); // Hide the alert after 3 seconds
+  };
+
   return (buyitem==null ?<div className='empty'></div> : (
     <div>
      <div className='pt'>
@@ -99,12 +109,21 @@ function ProductBuy() {
                  let isexist=  cartitem.some((item)=>{
                       return item.productID===buyitem.productID;
                    });
+                   changeExist(isexist);
        // console.log(isexist)
                 if(!isexist){ 
                      Cart.changeCounter();
                      addcartitem([buyitem,...cartitem]);
                    }
+                showAlert()
               }}>ADD TO CART</button>
+              
+        {isAlertVisible && (
+        <div className='alert-container'  style={exist? {backgroundColor:"red"}:{backgroundColor:"green"} }>
+          <div className='alert-inner'>{!exist ?"Item added successfully" : "Item already added !"} </div>
+        </div>
+
+      )}
           </div>
         </div>
      </div> 
