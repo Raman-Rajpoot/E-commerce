@@ -1,0 +1,113 @@
+
+.loginPage{
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: aliceblue; */
+}
+.login_form{
+    width: 60%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.944);
+}
+.loginText{
+    font-size: 2em;
+    font-weight: 600;
+    text-align: start;
+    width: 49%;
+    text-transform: capitalize;
+    margin-bottom: 1.75rem;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    width: 50%;
+}
+.login_email, .login_password,.login_btn{
+    height: 2.3rem;
+    font-size: 0.8em;
+    padding: 0.4rem 0.5rem;
+    outline: none;
+   margin-bottom: 1.75rem;
+}
+.login_btn{
+  
+    background-color: rgba(246, 9, 9, 0.92);
+    font-size: 1.1em;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    margin-bottom: 1rem;
+}
+.login_btn:active{
+    opacity: 0.75;
+}
+.signUp{
+    height: auto;
+    color: rgb(241, 2, 2);
+    /* text-decoration: none; */
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding: 0.2rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.signUp::before{
+    content: "";
+    position: absolute;
+    width: 110%;
+    height: 2px;
+    background-color: red;
+    left:-110%;
+    top:1.69em;
+    transition: all 0.3s;
+}
+.signUp:hover::before{
+    left:0%;
+}
+.signUp:hover{
+    text-decoration: underline;
+}
+.T&C{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+label span{
+    font-weight: bold;
+}
+label{
+    font-size: 0.9em;
+}
+#checkBtn{
+    align-self: flex-end;
+}
+@media screen and (max-width: 800px) {
+    .login_form{
+        width: 90%;
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+    }
+    input{
+        width: 100%;
+    }
+}
+@media screen and (max-width: 500px) {
+    .login_form{
+        width: 100vw;      
+    }
+    input{
+        width: 110%;
+    }
+}

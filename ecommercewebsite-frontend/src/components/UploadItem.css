@@ -1,0 +1,105 @@
+/* Container styling */
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  .upload-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Form styling */
+  .upload-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  /* Label styling */
+  .form-label {
+    margin: 10px 0 5px;
+    font-weight: bold;
+  }
+  
+  /* Input field styling */
+  .form-input {
+    margin-bottom: 15px;
+    padding: 10px ;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: auto;
+  }
+  
+  /* Submit button styling */
+  .submit-button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff0800;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #b31500ed;
+  }
+  
+  /* Specific styling for ID selectors if needed */
+  /* #item-name {
+   }
+  
+  #description {
+  
+  }
+  
+  #price {
+   }
+  
+  #image {
+   } */
+  
+   @media (max-width: 768px) {
+    .upload-form {
+      padding: 15px ;
+    }
+  
+    .form-input {
+      padding: 8px auto;
+      font-size: 14px;
+    }
+  
+    .submit-button {
+      padding: 8px;
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .upload-form {
+      padding: 10px;
+    }
+  
+    .form-input {
+      padding:auto 6px;
+      font-size: 12px;
+      width: auto;
+    }
+  
+    .submit-button {
+      padding:auto 6px;
+      font-size: 12px;
+      width: auto;
+    }
+  }
+  

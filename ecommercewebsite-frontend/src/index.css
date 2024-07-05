@@ -1,0 +1,29 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+  background:#f7ebebcb;
+  width: 100vw;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+*::selection{
+  background-color: black;
+  color: #fff;
+}
+img::selection{
+  background-color: rgba(220, 220, 220, 0);
+}
+label::selection,label span::selection{
+  color: #fff;
+  background-color: black;
+}
+
+

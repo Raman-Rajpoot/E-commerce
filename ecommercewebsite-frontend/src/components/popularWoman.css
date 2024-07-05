@@ -1,0 +1,40 @@
+.womans_collection{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 3rem 0.7rem;
+    padding:5vh 10vw;
+}
+.womans_collection_heading{
+    text-align: center;
+    font-size: 2em;
+    margin: 3rem;
+    position: relative;
+    margin-top: 20vh;
+}
+.womans_collection_heading::after{
+    content: "";
+    position: absolute;
+    width: 15%;
+    height: 2.3px;
+    background-color: black;
+    left: 41.5%;
+    top: 1.5em;
+}
+@media screen and (max-width:600px) {
+    .womans_collection{
+             display: grid;
+             grid-template-columns: 1fr 1fr ;
+             justify-items: center;
+             gap: 1rem 0.4rem;
+         }
+        }
+@media screen and (max-width: 380px) {   
+    .womans_collection{
+       display: grid;
+       grid-template-columns: 1fr ;
+       justify-items: center;
+   }  
+           }
+               
