@@ -1,0 +1,72 @@
+import { Double, Int32 } from "mongodb";
+import mongoose, { Schema } from "mongoose";
+
+
+
+// Review subdocument schema
+const reviewSchema = new mongoose.Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  rating: {
+    type: mongoose.Schema.Types.Decimal128,
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
+  
+}, { timestamps: true });
+
+const productSchema = new mongoose.Schema({
+      title:{
+         type: String,
+         required : true,
+      },
+      productImage: {
+         type: String,
+         required : true
+      },
+     price:{
+         type:mongoose.Schema.Types.Decimal128,
+         required: true
+     },
+     rating:{
+       type: mongoose.Schema.Types.Decimal128,
+      default: 0.0
+     },
+     discount:{
+      type: Number ,
+       default:0
+     },
+     owner:{
+     type:  Schema.Types.ObjectId,
+     ref: "Owner",
+     required: true,
+     index: true
+     },
+     reviews:[reviewSchema],
+
+     description:{
+      type: String
+     },
+     stock:{
+       type:Number,
+       default:0
+     },
+     category:{
+      type: String,
+      required: true
+     },
+     ageCategory:{
+      type: String,
+      required: true
+     }
+
+     
+},{timestamps: true});
+
+export const Product =  mongoose.model("Product", productSchema);
