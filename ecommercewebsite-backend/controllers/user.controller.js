@@ -1,12 +1,12 @@
 import express from 'express'
-import { asyncHandler } from '../../../ecommercewebsite-backend/utils/asynHandler.js';
-import { ApiError } from '../../../ecommercewebsite-backend/utils/ApiError.js';
-import { ApiResponce } from '../../../ecommercewebsite-backend/utils/ApiResponce.js';
-import { User } from '../../../ecommercewebsite-backend/models/user.model.js';
-import { uploadOnCloudinary } from '../../../ecommercewebsite-backend/utils/cloudinary.js';
-import { Product } from '../../../ecommercewebsite-backend/models/product.model.js';
-import { Owner } from '../../../ecommercewebsite-backend/models/owner.product.model.js';
-
+import { asyncHandler } from '../utils/asynHandler.js';
+import { ApiError } from '../utils/ApiError.js';
+import { ApiResponce } from '../utils/ApiResponce.js';
+import { User } from '../models/user.model.js';
+import { uploadOnCloudinary } from '../utils/cloudinary.js';
+import { Product } from '../models/product.model.js';
+import { Owner } from '../models/owner.product.model.js';
+import  jwt  from 'jsonwebtoken';
 
 
  const generateRefreshAcesssToken =async (id)=>{
@@ -15,6 +15,7 @@ import { Owner } from '../../../ecommercewebsite-backend/models/owner.product.mo
     console.log(user._id);
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken(); 
+    if(!refreshToken || !accessToken) throw new ApiError(500, "Access and refresh Token not generated")
     user.refreshToken= refreshToken;
     console.log("Refresh Token : ", refreshToken);
     return {accessToken, refreshToken};
@@ -241,41 +242,43 @@ const updateUserImg = asyncHandler(async (req, res) => {
 
 
 const refreshAccessToken= asyncHandler(async (req,res)=>{
-    const token = req.cookie.refreshToken || req.body.refreshToken;
-
+    const token = req.cookies?.refreshToken || req.body?.refreshToken;
+    console.log(token)
     if(!token) throw new ApiError(404, "Unauthorisized request");
 try {
     
-        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        const decodedToken = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
     
         // if(!decodedToken) throw new ApiError(404,"decoded Token not found");
-    
+     console.log(decodedToken)
         const user=await User.findById(decodedToken?._id);
-    
+     console.log(user)
         if(!user) throw new ApiError(404,"User not found");
       
         if(token !== user?.refreshToken){
             new ApiError(404, "Token expired or used");
         }
-    
-    
+ 
         const options = {
             httpOnly: true,
             secure: true
         }
     
-        const {newRefreshToken, newAccessToken}=await generateAccessAndRefreshToken(user._id);
-    
-        return res.status(200).cookie("AccessToken", newAccessToken,options).cookie("refreshToken", newRefreshToken,options).json(new ApiResponce(
+        const {refreshToken, accessToken}=await generateRefreshAcesssToken(user._id);
+       console.log(refreshToken, accessToken)
+        return res.status(200).cookie("accessToken", accessToken,options).cookie("refreshToken", refreshToken,options).json(new ApiResponce(
             200,
-            {user: user,newAccessToken,newRefreshToken},
+            {user: user,accessToken,refreshToken},
             "successfully New Tokens Created"
         ))
 } catch (error) {
     throw new ApiError(400, "Error during refreshing tokens")
 }   })
+
+
+
 const addCart = asyncHandler(async (req, res) => {
-    const { productID } = req.params;
+    const { productID } = req.params; 
   
     const product = await Product.findById(productID);
     if (!product) throw new ApiError(404, 'Invalid product');

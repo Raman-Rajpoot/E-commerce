@@ -1,10 +1,10 @@
-import { asyncHandler } from '../../../ecommercewebsite-backend/utils/asynHandler.js';
-import { ApiError } from '../../../ecommercewebsite-backend/utils/ApiError.js';
-import { ApiResponce } from '../../../ecommercewebsite-backend/utils/ApiResponce.js';
-import { User } from '../../../ecommercewebsite-backend/models/user.model.js';
-import { uploadOnCloudinary } from '../../../ecommercewebsite-backend/utils/cloudinary.js';
-import { Product } from '../../../ecommercewebsite-backend/models/product.model.js';
-import { Owner } from '../../../ecommercewebsite-backend/models/owner.product.model.js';
+import { asyncHandler } from '../utils/asynHandler.js';
+import { ApiError } from '../utils/ApiError.js';
+import { ApiResponce } from '../utils/ApiResponce.js';
+import { User } from '../models/user.model.js';
+import { uploadOnCloudinary } from '../utils/cloudinary.js';
+import { Product } from '../models/product.model.js';
+import { Owner } from '../models/owner.product.model.js';
 import mongoose from 'mongoose';
 
 

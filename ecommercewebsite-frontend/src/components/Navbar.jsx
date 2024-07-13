@@ -79,7 +79,7 @@ const user= {};
       <div className="Navbar_logo">
       <Link to='' onClick={() => { changeSelected("Shop") }} className={select === "Shop" ? "selected" : ""} style={{textDecoration:"none"}}>
         <img src={logo} alt="logo" className="logo" />
-        <p className="logo_name">Shopper</p>
+        <p className="logo_name">E-bazzar</p>
       </Link>
        
       </div>
