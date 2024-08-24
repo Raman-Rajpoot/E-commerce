@@ -37,6 +37,25 @@ form{
     outline: none;
    margin-bottom: 1.75rem;
 }
+.error-message {
+    color: #e74c3c; /* Red color for the error text */
+    font-size: 14px; /* Font size for the error message */
+    margin-top: 10px; /* Space above the error message */
+    margin-bottom: 10px; /* Space below the error message */
+    padding: 10px; /* Padding around the error message */
+    background-color: #fce4e4; /* Light red background color */
+    border: 1px solid #e74c3c; /* Red border for the error box */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  .SignUp_form input[type="submit"] {
+    margin-top: 15px; /* Add space between submit button and error message */
+  }
+  
+  /* Optional: Add a transition effect for the error message */
+  .error-message {
+    transition: opacity 0.3s ease-in-out;
+  }
 .SignUp_btn{
   
     background-color: rgba(246, 9, 9, 0.92);

@@ -23,7 +23,7 @@ function One_cart(item) {
      addcartitem(update);
 
    }
- 
+   
   return (
     <div className='closs'>
 <Link to='/product' style={{textDecoration:"none" } }>

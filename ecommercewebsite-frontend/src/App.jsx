@@ -1,50 +1,40 @@
-// import React, { useState } from "react";
-// import  ReactDOM  from "react-dom";
-// //css
+import React, { Suspense, useContext, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import './App.css';
-// import MyState from './Context/States/State.js';
-// // import components
 import Navbar from "./components/Navbar.jsx";
-
 import Footer from "./components/Footer.jsx";
-// import Footer from './components/Footer.jsx';
-
-import React, { Suspense } from "react";
-import {
-  Outlet
-} from "react-router-dom";
 import MyState from './Context/States/State.js';
-// import Cartstate from './Context/Cart_contex/Cart_state.js';
 import Loader from './components/Loader.jsx';
-import Profile from './components/Profile.jsx';
-import UploadItem from './components/UploadItem.jsx';
 import BuyContextprovider from './Context/Buy_context/BuyContextprovider.jsx';
 import CartContextprovider from './Context/Cart_contex/CartContextprovider.jsx';
+import LoginContext from './Context/Login_context/LoginContext.js';
 import LoginContextProvider from './Context/Login_context/LoginContextProvider.jsx';
+
 const App = () => {
-  
-  return (
-    <>
-    <Suspense fallback={<Loader />}>
-  
-    <MyState >
-    <CartContextprovider>
-      <BuyContextprovider>
-        <LoginContextProvider>
-      <Navbar  />
-        <Outlet />     
-      <Footer />
-      </LoginContextProvider>
-      </BuyContextprovider>
-        </CartContextprovider>
-        </MyState>
-       
-       {/* <UploadItem /> */}
-       {/* <Profile/> */}
-       {/* <SearchPage /> */}
-</Suspense>
-    </>
-  );
+    const { user, setUser } = useContext(LoginContext);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser && !user) { // Only set user if it's not already set
+            setUser(JSON.parse(storedUser));
+            
+        }
+        console.log("User loaded from localStorage:", user);
+    }, [user, setUser]); // Depend on 'user' and 'setUser' to avoid unnecessary re-renders
+
+    return (
+        <Suspense fallback={<Loader />}>
+            <MyState>
+                <CartContextprovider>
+                    <BuyContextprovider>
+                        <Navbar />
+                        <Outlet />
+                        <Footer />
+                    </BuyContextprovider>
+                </CartContextprovider>
+            </MyState>
+        </Suspense>
+    );
 }
 
 export default App;

@@ -63,11 +63,45 @@ const userSchema = new mongoose.Schema({
             trim: true
         }
     },
-    cart:
-        [{
-        type:  Schema.Types.ObjectId,
-        ref: "Product"
-}] 
+    cart:[{
+        productId :{
+            type : String,
+            required : true,
+
+        },
+        productName:{
+            type : String,
+            required : true,
+             trim: true
+        },
+        productImage : {
+            type : String,
+            required : true,
+        },
+       productPrice:{
+        type:mongoose.Schema.Types.Decimal128,
+        required : true,
+         
+       },
+       productOldPrice:{
+        type:mongoose.Schema.Types.Decimal128,
+        required : true,
+         
+       },
+    rating:{
+      type: mongoose.Schema.Types.Decimal128,
+     default: 0.0
+    },
+    stock:{
+        type:Number,
+        default:0
+      },
+      category: {
+       type: String,
+       enum: ['male', 'female', 'kids'],
+       required: true,
+     },
+    }] 
 ,
     buyHistory: [{
         type: Schema.Types.ObjectId,

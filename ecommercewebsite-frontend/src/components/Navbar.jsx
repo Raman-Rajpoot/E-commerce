@@ -1,64 +1,66 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-// import css
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Navbar.css';
-// import images
 import cardIcon from '../images/cart_icon.png';
 import cross from '../images/cross-icon.png';
 import logo from '../images/logo.png';
 import menu from '../images/menu-icon.png';
-import UserImg from '../images/user.png';
-// import User from "./User.jsx";
 import LoginContext from "../Context/Login_context/LoginContext.js";
 import MyContext from "../Context/States/Context.js";
 
+// Debounce hook
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
 
-const Navbar = () => {
- const Login_Context = useContext(LoginContext)
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
 
-
- const [searchQuery, setSearchQuery] = useState('');
- const [searchHistory, setSearchHistory] = useState(['example1', 'example2', 'example3']);
- const [suggestions, setSuggestions] = useState(['suggestion1', 'suggestion2', 'suggestion3']);
-
- const handleSearchChange = (e) => {
-   setSearchQuery(e.target.value);
-   
-   // Optionally update suggestions here based on the searchQuery
- };
-
- const handleSearchSubmit = (e) => {
-   e.preventDefault();
-   if (searchQuery) {
-     setSearchHistory([searchQuery, ...searchHistory]);
-   }
-   setSearchQuery('');
- };
- const handleKeyDown = (e) => {
-  if (e.keyCode === 13) { // Check if Enter key is pressed
-    if (searchQuery) {
-      setSearchHistory([searchQuery, ...searchHistory]);
-    }
-    setSearchQuery('');
-  }
+  return debouncedValue;
 };
 
-// use for good navbar ui 
-  const location = useLocation();
- let path ="Shop";
- if(location.pathname!='/')
-        path = location?.pathname?.slice(1)[0]?.toUpperCase()+ location?.pathname?.slice(2)?.toLowerCase() ;
+// SearchBar Component
+const SearchBar = ({ searchQuery, handleSearchChange, handleSearchSubmit, handleKeyDown }) => (
+  <div className="search-icon-container">
+    <input
+      type="text"
+      className="search-input"
+      value={searchQuery}
+      onChange={handleSearchChange}
+      placeholder="Search..."
+      onKeyDown={handleKeyDown}
+    />
+    <button className="search-button" onClick={handleSearchSubmit}>
+      <FontAwesomeIcon icon={faSearch} />
+    </button>
+  </div>
+);
 
-//  if(!path) path="Shop";
-
-//  alert(path)
-  const [select, changeSelected] = useState(path);
+const Navbar = () => {
+  const userInfo = useContext(LoginContext);
   const Cart = useContext(MyContext);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchHistory, setSearchHistory] = useState(['example1', 'example2', 'example3']);
   const [menuOpen, setMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  useEffect(() => {
+    if (userInfo?.user) {
+
+      console.log("User Info after login:", userInfo.user);
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -66,88 +68,142 @@ const Navbar = () => {
     };
 
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
-const user= {};
+  const location = useLocation();
+  const path = useMemo(() => {
+    if (location.pathname === '/') return "Shop";
+    const formattedPath = location?.pathname?.slice(1);
+    return formattedPath.charAt(0).toUpperCase() + formattedPath.slice(1).toLowerCase();
+  }, [location.pathname]); // Ensure dependencies are correct
+
+  const [select, changeSelected] = useState(path);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery) {
+      setSearchHistory(prevHistory => [searchQuery, ...prevHistory]); // Use functional update
+    }
+    setSearchQuery('');
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearchSubmit(e);
+    }
+  };
+
+  const handleLogout = async ()=> {
+      try {
+          const response = await fetch('http://localhost:7000/api/v1/user/logOut', {
+              method: 'POST',
+              credentials: 'include' // Ensure cookies are sent with the request
+          });
+          if (response.ok) {
+              console.log('Logout successful');
+              // Handle successful logout (e.g., redirect user or update UI)
+          } else {
+              console.error('Logout failed');
+          }
+      } catch (error) {
+          console.error('Error during logout:', error);
+      }
+  }
+  
+  const handleMenuClick = (selectedPath) => {
+    changeSelected(selectedPath);
+    setMenuOpen(false); // Close the menu after a selection is made
+  };
+
+  const renderSearchBar = useCallback(() => (
+    <SearchBar
+      searchQuery={debouncedSearchQuery}
+      handleSearchChange={handleSearchChange}
+      handleSearchSubmit={handleSearchSubmit}
+      handleKeyDown={handleKeyDown}
+    />
+  ), [debouncedSearchQuery, handleSearchChange, handleSearchSubmit, handleKeyDown]);
 
   return (
     <div className="Navbar">
       <div className="Navbar_logo">
-      <Link to='' onClick={() => { changeSelected("Shop") }} className={select === "Shop" ? "selected" : ""} style={{textDecoration:"none"}}>
-        <img src={logo} alt="logo" className="logo" />
-        <p className="logo_name">E-bazzar</p>
-      </Link>
-       
+        <Link
+          to=""
+          onClick={() => handleMenuClick("Shop")}
+          className={select === "Shop" ? "selected" : ""}
+          style={{ textDecoration: "none" }}
+        >
+          <img src={logo} alt="logo" className="logo" />
+          <p className="logo_name">Bazzar</p>
+        </Link>
       </div>
-      {/* <Router> */}
-        <div className="menu-icon"onClick={() => setMenuOpen(!menuOpen)}>
-          <img src={menuOpen ?cross:menu} alt="menu" />
-        </div>
-        <div className={menuOpen ? "Nav-cnt vis" : "Nav-cnt"}>
-          <div className="Navbar_Menu">
-            <Link to='' onClick={() => { changeSelected("Shop") }} className={select === "Shop" ? "selected" : ""} style={{textDecoration:"none"}}>Shop</Link>
-            <Link to={`male`} onClick={() => { changeSelected("Male") }} className={select === "Male" ? "selected" : "" } style={{textDecoration:"none"}}>Male</Link>
-            <Link to='female' onClick={() => { changeSelected("Female") }} className={select === "Female" ? "selected" : ""} style={{textDecoration:"none"}}>Female</Link>
-            <Link to="kids" onClick={() => { changeSelected("Kids") }} className={select === "Kids" ? "selected" : ""} style={{textDecoration:"none"}}>Kids</Link>
-          </div>
-         {!(windowWidth < 1100)  ? <div className="search-icon-container">
-          <div className="search-icon-container">
-          <input
-            type="text"
-            className="search-input"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            placeholder="Search..."
-            onKeyDown={handleKeyDown}
-            
-          />
-     
-          <button className="search-button" onClick={handleSearchSubmit} >
-          <FontAwesomeIcon icon={faSearch} />
-          </button>
-        
-          </div>
-        </div> : ""}
-          <div className="Navbar_login">
+      
+      <button 
+        className="menu-icon"
+        onClick={() => setMenuOpen(prevMenuOpen => !prevMenuOpen)} // Use functional update
+        aria-label="Toggle menu"
+        aria-expanded={menuOpen}
+        aria-controls="navigation"
+      >
+        <img src={menuOpen ? cross : menu} alt="menu" className="menuIcon" style={menuOpen ? {position: 'fixed'} : {position:"static"}}/>
+      </button>
 
-          {user?._id?  <NavLink to="/profile" style={{textDecoration:"none"}}  className="Profile">{windowWidth < 1100 ? <div> User</div>: <img src={UserImg} alt="User" className="ProfileImg"/>} </NavLink>: <NavLink to="/login" className="login" style={{textDecoration:"none"}}>Login</NavLink> }
-            
-            
-            {windowWidth < 1100 ? (
-              <NavLink to="/cart" className="cart" style={{textDecoration:"none"}}>Cart</NavLink>
-            ) : (
-              <NavLink to="/cart" className="cart">
-                <img src={cardIcon} alt="cardIcon" className="card" />
-                <div className="card_count">{Cart.counter}</div>
-              </NavLink>
-            )}
-          </div>
+      <div className={menuOpen ? "Nav-cnt vis" : "Nav-cnt"} id="navigation">
+        <div className="Navbar_Menu">
+          <Link to="" onClick={() => handleMenuClick("Shop")} className={select === "Shop" ? "selected" : ""} style={{ textDecoration: "none" }}>Shop</Link>
+          <Link to="male" onClick={() => handleMenuClick("Male")} className={select === "Male" ? "selected" : ""} style={{ textDecoration: "none" }}>Male</Link>
+          <Link to="female" onClick={() => handleMenuClick("Female")} className={select === "Female" ? "selected" : ""} style={{ textDecoration: "none" }}>Female</Link>
+          <Link to="kids" onClick={() => handleMenuClick("Kids")} className={select === "Kids" ? "selected" : ""} style={{ textDecoration: "none" }}>Kids</Link>
         </div>
-        {windowWidth < 1100 ? <div className="search-icon-container">
-          <input
-            type="text"
-            className="search-input"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            placeholder="Search..."
-          />
-         <FontAwesomeIcon icon={faSearch} />
-        </div>: ""}
-      {/* </Router> */}
+
+        {windowWidth >= 1100 && renderSearchBar()}
+
+        <div className="Navbar_login">
+          {userInfo?.user ? ( 
+            <>
+              <NavLink to="/profile" style={{ textDecoration: "none" }} className="Profile">
+                <div style={{width:"2rem",height:"2rem", border:'0.35px solid black', borderRadius:"50%", textAlign:"center",fontWeight:"bold", color:"orangered",fontSize:"1.3em",backgroundColor:"coral" }}>
+                  {userInfo?.user?.userName[0]?.toUpperCase() || "U"}
+                </div>
+              </NavLink>
+             
+            </>
+          ) : (
+            <NavLink to="/login" className="login" style={{ textDecoration: "none" }}>Login</NavLink>
+          )}
+
+          {windowWidth < 1100 ? (
+            <>
+              <NavLink to="/cart" className="cart" style={{ textDecoration: "none" }}>Cart</NavLink>
+              <button onClick={handleLogout} className="logOut">LogOut</button>
+            </>
+          ) : (
+            <NavLink to="/cart" className="cart">
+              <img src={cardIcon} alt="cardIcon" className="card" />
+              <div className="card_count">{Cart.counter}</div>
+            </NavLink>
+          )}
+        </div>
+      </div>
+
+      {windowWidth < 1100 && renderSearchBar()}
+
       <div className="search-history">
-        
-               <ul>
-                   {searchHistory.map((historyItem, index) => (
-                     <li key={index}>{historyItem}</li>
-                   ))}
-                </ul>
-       </div>
+        <ul>
+          {searchHistory.map((historyItem, index) => (
+            <li key={index}>{historyItem}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
-}
+};
 
 export default Navbar;

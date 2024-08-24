@@ -57,16 +57,23 @@ const productSchema = new mongoose.Schema({
        type:Number,
        default:0
      },
-     category:{
+     category: {
       type: String,
-      required: true
-     },
-     ageCategory:{
-      type: String,
-      required: true
-     }
-
-     
+      enum: ['male', 'female', 'kids'],
+      required: true,
+    },
+     ageRange: {
+      min: {
+        type: Number,
+        required: true,
+      },
+      max: {
+        type: Number,
+        required: true,
+      },
+  
+    },
+    
 },{timestamps: true});
 
 export const Product =  mongoose.model("Product", productSchema);

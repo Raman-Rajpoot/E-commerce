@@ -19,15 +19,54 @@ const Item = ({productID,productImage,productName,productOldPrice,productNewPric
   //  console.log(productQuantity);
   const [ isAlertVisible, setIsAlertVisible ] = React.useState(false);
   const [exist, changeExist]= useState(false);
+  const [loading, setLoading] = useState(false); 
+
   const showAlert = () => {
     setIsAlertVisible(true);
     setTimeout(() => {
       setIsAlertVisible(false);
     }, 1000); // Hide the alert after 3 seconds
   };
-
+  async function addCart(product) {
+    try {
+      const prdt= {
+        productId: product.productID,
+        productName: product.productName,
+        productImage: product.productImage,
+        productPrice: product.productNewPrice,
+        productOldPrice: product.productOldPrice || 0,
+        rating: product.rating || 0.0,
+        stock: product.stock || 3,
+        category: product.category || 'kids',
+    }
+        const response = await fetch('http://localhost:7000/api/v1/user/addCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(prdt),
+            credentials: 'include' // Ensure cookies are sent with the request
+        });
+        console.log(prdt)
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Product added to cart:', data);
+            // Handle successful cart update (e.g., update UI, show a message)
+        } else {
+            console.error('Failed to add product to cart');
+        }
+    } catch (error) {
+        console.error('Error adding product to cart:', error);
+    }
+}
   return (
-    
+    // {
+    //   id: 12,
+    //   name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
+    //   image: p1_img,
+    //   new_price: 50.0,
+    //   old_price: 80.5,
+    // }
     <div className='Item'>
       <Link to='/product'>
         <img src={productImage} alt="item_image" className='Item_img' onClick={()=>{ addbuyitem({productID,productImage,productName,productOldPrice,productNewPrice})}}/>
@@ -51,7 +90,7 @@ const Item = ({productID,productImage,productName,productOldPrice,productNewPric
           // console.log(isexist)
           if(!isexist){ 
             Cart.changeCounter();
-            addcartitem([{productID,productImage,productName,productNewPrice,productOldPrice},...cartitem]);
+            addCart(product={productID,productImage,productName,productNewPrice,productOldPrice});
         }
         showAlert()
         }}>Add Cart</button>

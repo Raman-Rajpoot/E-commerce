@@ -90,7 +90,7 @@ const loginUser = asyncHandler(async (req, res)=>{
    const Existuser =await User.findOne({
     $or: [{email}, {userName}]
    });
-   console.log("Exist user",Existuser._id)
+   console.log("Exist user",Existuser?._id)
    if(!Existuser) throw new ApiError(404, "user not found");
 //    console.log(Existuser.isPasswordCorrect);
    const passwordCheck=await Existuser.isPasswordCorrect(password);
@@ -101,13 +101,13 @@ const loginUser = asyncHandler(async (req, res)=>{
 //  console.log(accessToken,refreshToken)
  if(!accessToken || !refreshToken) throw new ApiError(400, "Token not found")
 //    req.user= Existuser;
-const user = await User.findById(Existuser._id).select( "-password -refreshToken" );
+const user = await User.findById(Existuser._id).select("-password -refreshToken" );
 
    const options= {
     httpOnly:true,
     secure: true
    }
-
+ console.log(user);
    return res.status(200).cookie("accessToken", accessToken,options).cookie("refreshToken",  refreshToken,options).json(new ApiResponce(
     200,
     {user: user,accessToken,refreshToken},
@@ -124,6 +124,7 @@ const loggedOut = asyncHandler(async (req,res)=>{
 
    
    const user =await User.findById(req.user?._id);
+   console.log("Logged Out", user)
    if(!user) throw new ApiError(404, "user not found");
 
    user.refreshToken= "";
@@ -275,24 +276,64 @@ try {
     throw new ApiError(400, "Error during refreshing tokens")
 }   })
 
+const getCurrentUser = asyncHandler(async (req,res)=>{
+    const userId= req.user?._id;
+    const user =await User.findById(userId).select("-password -refreshToken");
+    if(!user) throw new ApiError(404, 'Invalid user');
 
+    return  res.status(200).json(new ApiResponce(200, user, "user fetched successfully"));
+ 
+})
+
+const deleteUser = asyncHandler(async (req,res)=>{
+    const userId= req.user?._id;
+    const user =await User.findById(userId);
+    if(!user) throw new ApiError(404, 'Invalid user');
+    const owner = await Owner.findOne({ userInfo: user._id });
+    user.refreshToken= "";
+    await user.deleteOne();
+   
+    await owner.deleteOne(); 
+
+    const options= {
+     httpOnly:true,
+     secure: true
+    } 
+ 
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponce(200, {}, "User logged Out"))
+})
 
 const addCart = asyncHandler(async (req, res) => {
-    const { productID } = req.params; 
-  
-    const product = await Product.findById(productID);
-    if (!product) throw new ApiError(404, 'Invalid product');
-  
-    const user = await User.findById(req.user._id); // Fixed to use req.user._id
+    const product = req.body;
+     console.log(product)
+    if (!product || !product.productId || !product.productName || !product.productImage || !product.productPrice) {
+        throw new ApiError(400, 'Invalid product details');
+    }
+
+    const user = await User.findById(req.user._id);
+
     if (!user) throw new ApiError(404, 'User not found');
-  
-    user.cart.push(product);
-    // await user.save();
-  
-    const updatedUser = await User.findById(req.user._id).select("-password -refreshToken");
-  
-    return res.status(200).json(new ApiResponce(200, updatedUser, "Product added to cart"));
-  });
+
+    // Check if the product is already in the cart
+    const existingProductIndex = user.cart.findIndex(item => item.productId === product.productId);
+    if (existingProductIndex > -1) {
+        // Update the existing product if it already exists in the cart
+        user.cart[existingProductIndex] = product;
+    } else {
+        // Add new product to the cart
+        user.cart.push(product);
+    }
+
+    await user.save();
+
+    const updatedUser = await User.findById(req.user._id).select('-password -refreshToken');
+
+    return res.status(200).json(new ApiResponce(200, updatedUser.cart, 'Product added to cart'));
+});
   
 
 const addAndUpdateAddress = asyncHandler(async (req,res)=>{
@@ -368,6 +409,26 @@ const addBuyHistory = asyncHandler(async (req,res)=>{
       res.status(500).json({ error: err.message });
     }
  })
+
+
+const removeCartItem = asyncHandler(async (req, res) => {
+    const { productId } = req.body;
+    
+    const user = await User.findById(req.user._id);
+    if (!user) throw new ApiError(404, 'User not found');
+
+    user.cart = user.cart.filter(item => item.productId.toString() !== productId);
+    await user.save();
+
+    res.status(200).json({ success: true, cart: user.cart });
+});
+
+const getCartItems = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id).populate('cart.productId');
+    if (!user) throw new ApiError(404, 'User not found');
+
+    res.status(200).json({ success: true, cart: user.cart });
+});
 export {
     userRegister,
     loginUser,
@@ -380,5 +441,9 @@ export {
     addAndUpdateAddress,
     userLocation,
     addBuyHistory,
-    updateBuyStatus
+    updateBuyStatus,
+    getCurrentUser,
+    deleteUser,
+    removeCartItem,
+    getCartItems
 } ;

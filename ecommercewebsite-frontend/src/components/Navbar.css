@@ -28,10 +28,12 @@
     
 }
 .logo_name{
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: 500;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
+    font-weight: 590;
     margin-left: 0.4rem;
+    color: orangered;
 }
 .Navbar_Menu{
     width: 22vw;
@@ -52,6 +54,23 @@
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
+}
+.logOut{
+
+    font-weight: 400;
+    height: 1.8rem;
+    padding: 0.2rem 0.5rem;
+    text-align: center;
+    border: none;
+    padding: 0;
+    font-size: 1rem;
+   font-weight: 700;
+  
+    background-color: #fff;
+    
+    cursor: pointer;
+    text-decoration: none;
+    color: rgb(230, 45, 45);
 }
 .Navbar_Menu a{
     padding: 2px;
@@ -142,6 +161,10 @@
     top:10%;
     z-index: 1002;
 }
+.menuIcon{
+    right:4%;
+   
+}
 .menu-icon img{
     display: none;
 }
@@ -187,7 +210,7 @@
     background-color: #f3f0f0f4;
     border-radius: 4px;
   }
-  
+ 
   .search-input {
     padding: 10px;
     font-size: 16px;
@@ -219,16 +242,17 @@
 @media screen and (max-width: 1100px) {
     .Navbar{
       position: relative;
+      
     }
     .Nav-cnt{
         position: absolute;
-       top: 0;
+        top: 0;
         right: 0;
         width:50vw;
         height: 100vh;
         background-color: rgb(255, 255, 255);
        
-        
+        position: fixed;
         display: flex;
         flex-direction: column;
         justify-content: start;
@@ -294,9 +318,11 @@
 .menu-icon{
     margin-top: 5.5px;
     display: inline-block;
+    
 }
 .menu-icon img{
     display: inline-block;
+    
 }
 .vis{
     display: flex;
