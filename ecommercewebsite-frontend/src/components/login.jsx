@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
-import './login.css'; // Import CSS
+import './login.css';
 import LoginContext from '../Context/Login_context/LoginContext';
+import Cartcontext from '../Context/Cart_contex/Cart_contex';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -9,15 +10,11 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { setUser } = useContext(LoginContext);
+    const { addCartItem } = useContext(Cartcontext);
 
     const loginHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
-
-        // const user = {
-        //     email: email,
-        //     password: password
-        // };
 
         try {
             const response = await fetch('http://localhost:7000/api/v1/user/login', {
@@ -26,21 +23,28 @@ const Login = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ email, password }),
-                credentials: 'include' // Important for including cookies
+                credentials: 'include'
             });
+
             if (response.ok) {
                 const data = await response.json();
-                console.log('Logged in successfully:', data);
+                if (data?.user) setUser(data.user);
+                if (data?.cart) addCartItem(data.cart);
+                setUser(data.data.user);
+                console.log('Logged in successfully:', data.data.user);
+                navigate('/'); // Redirect to home after login
             } else {
-                console.error('Login failed');
+                const errorMessage = await response.text();
+                console.error('Login failed:', errorMessage);
+                // Optionally, show an error message to the user
             }
         } catch (error) {
             console.error('Error during login:', error);
+            // Optionally, show an error message to the user
         } finally {
             setLoading(false);
             setEmail("");
             setPassword("");
-            console.log(" login ");
         }
     };
 

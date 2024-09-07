@@ -1,4 +1,19 @@
-import { addCart, deleteUser, getCurrentUser, loggedOut, loginUser, refreshAccessToken, updateFullName, updatePassword, updateUserImg, userRegister } from "../controllers/user.controller.js"
+import { 
+    addCart, 
+    deleteUser, 
+    getCurrentUser, 
+    loggedOut, 
+    loginUser, 
+    refreshAccessToken, 
+    updateFullName,
+    updatePassword, 
+    updateUserImg, 
+    userRegister, 
+    removeCartItem, 
+    getCartItems, 
+    addAndUpdateAddress,
+    userLocation
+} from "../controllers/user.controller.js";
 import { verifyJwt } from "../middlewares/auth.middlewere.js";
 import { upload } from '../middlewares/multer.middleware.js';
 import express from 'express';
@@ -23,7 +38,8 @@ router.route('/updateFullName').post(verifyJwt, updateFullName);
 router.route('/updatePassword').post(verifyJwt, updatePassword);
 router.route('/updateUserImage').patch(verifyJwt,  upload.single("newUserImage"),
 updateUserImg);
-
+router.route('/updateAddress').post(verifyJwt, addAndUpdateAddress);
+router.get('/getUserInfo', verifyJwt,userLocation );
 router.route('/addCart').patch(verifyJwt,  addCart);
 
 router.route('/refreshAccessToken').post(refreshAccessToken);

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useMemo, useCallback } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Navbar.css';
@@ -9,11 +9,12 @@ import logo from '../images/logo.png';
 import menu from '../images/menu-icon.png';
 import LoginContext from "../Context/Login_context/LoginContext.js";
 import MyContext from "../Context/States/Context.js";
+import Cartcontext from "../Context/Cart_contex/Cart_contex.js";
 
 // Debounce hook
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
-
+ 
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
@@ -47,12 +48,12 @@ const SearchBar = ({ searchQuery, handleSearchChange, handleSearchSubmit, handle
 const Navbar = () => {
   const userInfo = useContext(LoginContext);
   const Cart = useContext(MyContext);
-
+  const {user,setUser} = useContext(LoginContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchHistory, setSearchHistory] = useState(['example1', 'example2', 'example3']);
   const [menuOpen, setMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
+  const navigate = useNavigate();
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   useEffect(() => {
@@ -107,6 +108,10 @@ const Navbar = () => {
               credentials: 'include' // Ensure cookies are sent with the request
           });
           if (response.ok) {
+            localStorage.clear();
+            setUser(null)
+            changeCounter(0);
+            navigate('/')
               console.log('Logout successful');
               // Handle successful logout (e.g., redirect user or update UI)
           } else {
@@ -130,7 +135,41 @@ const Navbar = () => {
       handleKeyDown={handleKeyDown}
     />
   ), [debouncedSearchQuery, handleSearchChange, handleSearchSubmit, handleKeyDown]);
+ const { cartitem, addCartItem } = useContext(Cartcontext); 
+  const [loading, setLoading] = useState(false);
+  const { counter, changeCounter } = useContext(MyContext);
 
+  useEffect(() => {
+    const fetchCart = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:7000/api/v1/user/getCart', {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        });
+      
+        if (response.ok) {
+          const data = await response.json();
+          changeCounter(data.cart.length);
+          addCartItem(data.cart);
+          console.log(counter);
+          console.log('Cart fetched successfully:', data.cart);
+        } else {
+          console.error('Failed to fetch cart');
+        }
+      } catch (error) {
+        console.error('Error during fetching cart:', error);
+      } finally {
+        setLoading(false);
+        console.log("Cart fetch operation completed");
+      }
+    };
+
+    fetchCart();
+  }, []);
   return (
     <div className="Navbar">
       <div className="Navbar_logo">
@@ -169,8 +208,8 @@ const Navbar = () => {
           {userInfo?.user ? ( 
             <>
               <NavLink to="/profile" style={{ textDecoration: "none" }} className="Profile">
-                <div style={{width:"2rem",height:"2rem", border:'0.35px solid black', borderRadius:"50%", textAlign:"center",fontWeight:"bold", color:"orangered",fontSize:"1.3em",backgroundColor:"coral" }}>
-                  {userInfo?.user?.userName[0]?.toUpperCase() || "U"}
+                <div   style={windowWidth >= 1100 ?{width:"2rem",height:"2rem", border:'0.01px solid black', borderRadius:"50%", textAlign:"center",fontWeight:"bold", color:"orangered",fontSize:"1.3em",backgroundColor:"transparent" }:{textDecoration: "none", color: "black", fontWeight:'400',fontSize: '1rem' }}>
+                  {windowWidth >= 1100 ? userInfo?.user?.userName[0]?.toUpperCase() || "U" : "Profile"}
                 </div>
               </NavLink>
              

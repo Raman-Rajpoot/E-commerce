@@ -11,25 +11,39 @@ import Buycontext from '../Context/Buy_context/Buy_context';
 import LoginContext from '../Context/Login_context/LoginContext';
 // import Ccontext from '../Context/Buy_contex/Cart_contex';
 
-const Item = ({productID,productImage,productName,productOldPrice,productNewPrice}) => {
-  const Cart= useContext(MyContext);
- const {cartitem,addcartitem} = useContext(Cartcontext)
- const {buyitem,addbuyitem} = useContext(Buycontext)
- const Login_Context = useContext(LoginContext)
-  //  console.log(productQuantity);
-  const [ isAlertVisible, setIsAlertVisible ] = React.useState(false);
-  const [exist, changeExist]= useState(false);
-  const [loading, setLoading] = useState(false); 
+const Item = ({
+  productID,
+  productImage,
+  productName,
+  productOldPrice,
+  productNewPrice,
+}) => {
+  const {counter, changeCounter} = useContext(MyContext);
+  const { cartitem, addCartItem } = useContext(Cartcontext);
+  const { buyitem, addbuyitem } = useContext(Buycontext);
+  const Login_Context = useContext(LoginContext);
+
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [exist, setExist] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isCartUpdating, setIsCartUpdating] = useState(false);
 
   const showAlert = () => {
     setIsAlertVisible(true);
     setTimeout(() => {
       setIsAlertVisible(false);
-    }, 1000); // Hide the alert after 3 seconds
+    }, 2000); // Hide the alert after 3 seconds
   };
+
   async function addCart(product) {
+    if (isCartUpdating) {
+      console.log('Cart is updating, please wait...');
+      return;
+    }
+
+    setIsCartUpdating(true);
     try {
-      const prdt= {
+      const prdt = {
         productId: product.productID,
         productName: product.productName,
         productImage: product.productImage,
@@ -38,27 +52,44 @@ const Item = ({productID,productImage,productName,productOldPrice,productNewPric
         rating: product.rating || 0.0,
         stock: product.stock || 3,
         category: product.category || 'kids',
-    }
-        const response = await fetch('http://localhost:7000/api/v1/user/addCart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(prdt),
-            credentials: 'include' // Ensure cookies are sent with the request
-        });
-        console.log(prdt)
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Product added to cart:', data);
-            // Handle successful cart update (e.g., update UI, show a message)
-        } else {
-            console.error('Failed to add product to cart');
-        }
+      };
+
+      let existingItemIndex = await cartitem.some((item) => {
+        return item.productId == product.productID;
+      });
+
+      setExist(existingItemIndex);
+      if (existingItemIndex) {
+        setIsCartUpdating(false);
+        return -1;
+      }
+
+      const response = await fetch('http://localhost:7000/api/v1/user/addCart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(prdt),
+        credentials: 'include', // Ensure cookies are sent with the request
+      });
+      setIsCartUpdating(false);
+      console.log('PRODUCT:: ', prdt);
+      if (response.ok) {
+        const data = await response.json();
+        addCartItem(data.data);
+        changeCounter(counter+1)
+        console.log(counter)
+        console.log('Product added to cart:', data.data);
+      } else {
+        console.error('Failed to add product to cart');
+      }
     } catch (error) {
-        console.error('Error adding product to cart:', error);
+      console.error('Error adding product to cart:', error);
+    } finally {
+      setIsCartUpdating(false);
     }
-}
+  }
+
   return (
     // {
     //   id: 12,
@@ -81,23 +112,17 @@ const Item = ({productID,productImage,productName,productOldPrice,productNewPric
         //  if(Login_Context.isLogin==null){
         //   return;
         // }
-
-        let isexist=  cartitem.some((item)=>{
-             return item.productID===productID;
-            
-          });
-          changeExist(isexist);
+      
           // console.log(isexist)
-          if(!isexist){ 
-            Cart.changeCounter();
+          
             addCart(product={productID,productImage,productName,productNewPrice,productOldPrice});
-        }
+        
         showAlert()
         }}>Add Cart</button>
 
         {isAlertVisible && (
         <div className='alert-container'  style={exist? {backgroundColor:"red"}:{backgroundColor:"green"} }>
-          <div className='alert-inner'>{!exist ?"Item added successfully" : "Item already added !"} </div>
+          <div className='alert-inner'>{isCartUpdating ? "Cart is Updating, Wait.....":!exist ?"Item added successfully" : "Item already added !"} </div>
         </div>
 
       )}

@@ -39,27 +39,27 @@ const userSchema = new mongoose.Schema({
     userLocation: {
         address: {
             type: String,
-            
+            default : "",
             trim: true
         },
         city: {
             type: String,
-            
+            default : "",
             trim: true
         },
         state: {
             type: String,
-            
+            default : "",
             trim: true
         },
         country: {
             type: String,
-           
+            default : "",
             trim: true
         },
         zipCode: {
             type: String,
-           
+            default : "",
             trim: true
         }
     },

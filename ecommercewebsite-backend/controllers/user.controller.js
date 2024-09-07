@@ -335,28 +335,45 @@ const addCart = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponce(200, updatedUser.cart, 'Product added to cart'));
 });
   
+const addAndUpdateAddress = asyncHandler(async (req, res) => {
+    const { address, country, state, city, zipCode } = req.body;
 
-const addAndUpdateAddress = asyncHandler(async (req,res)=>{
-    const {address, country, state, city, zipCode} = req.body;
+    console.log("Address:", address, "Country:", country, "State:", state, "City:", city, "Zip Code:", zipCode);
 
-    if(!(address&&country&& state&& city&& zipCode))
-         throw new ApiError(404, "address field missing")
+    // Check if all required fields are provided
+    if (!(address && country && state && city && zipCode)) {
+        throw new ApiError(400, "All address fields are required");
+    }
+   if(!address) address = "";
+   if(!country) country = "";
+   if(!state) state = "";
+   if(! city) city= "";
+   if(!zipCode) zipCode = "";
+  
 
+    // Find the user by ID
     const user = await User.findById(req.user?._id);
 
-    if(!user) throw new ApiError(404, "User not exist");
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
 
-    user.userLocation ={address, country,state,city, zipCode}
+    // Update user location
+    user.userLocation = { address, country, state, city, zipCode };
 
-    return res.status(200).json(new ApiResponce(200, user.userLocation, "successfully saved user location"));
+    // Save the updated user document
+    await user.save();
 
-})
+    // Respond with updated user location
+    return res.status(200).json(new ApiResponce(200, user.userLocation, "Successfully updated user location"));
+}); 
+
 const userLocation = asyncHandler(async (req,res)=>{
     
     const user = await User.findById(req.user?._id);
 
     if(!user) throw new ApiError(404, "User not exist");
-    return res.status(200).json(new ApiResponce(200, user.userLocation, "successfully get user address"));
+    return res.status(200).json(new ApiResponce(200, user, "successfully get user address"));
 
 })
 
@@ -412,12 +429,12 @@ const addBuyHistory = asyncHandler(async (req,res)=>{
 
 
 const removeCartItem = asyncHandler(async (req, res) => {
-    const { productId } = req.body;
-    
+    const  {productID} = req.body;
+    console.log(productID);
     const user = await User.findById(req.user._id);
     if (!user) throw new ApiError(404, 'User not found');
 
-    user.cart = user.cart.filter(item => item.productId.toString() !== productId);
+    user.cart = user.cart.filter(item => item.productId.toString() != productID);
     await user.save();
 
     res.status(200).json({ success: true, cart: user.cart });
