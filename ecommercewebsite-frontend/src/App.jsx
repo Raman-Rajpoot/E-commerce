@@ -1,4 +1,4 @@
-import React, { Suspense, useContext, useEffect } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import './App.css';
 import Navbar from "./components/Navbar.jsx";
@@ -11,7 +11,10 @@ import LoginContext from './Context/Login_context/LoginContext.js';
 
 const App = () => {
     const { user, setUser } = useContext(LoginContext);
-    useEffect(() => {
+    const [loading, setLoading] = useState(true);  // State to track loading
+
+    // Function to handle token validation and user fetch
+    const validateTokenAndFetchUser = () => {
         const token = localStorage.getItem('token');
         if (token) {
             fetch('http://localhost:7000/api/v1/user/getCurrentUser', {
@@ -24,21 +27,32 @@ const App = () => {
             .then(response => response.json())
             .then(data => {
                 if (data.valid) {
-                    // Re-establish session on backend
-                    // Set user context or any other state
+                    // If token is valid, set the user data in context
+                    setUser(data.user);
                 } else {
-                    // Invalid token, clear localStorage
+                    // Invalid token, clear user data but don't redirect
                     localStorage.removeItem('token');
-                    // Redirect to login or other action
+                    localStorage.removeItem('user');
+                    setUser(null);  // Clear user in context
                 }
+                setLoading(false);  // Set loading to false after validation
             })
             .catch(() => {
-                // Handle error, e.g., clear token and redirect to login
+                // In case of an error, clear user and token
                 localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                setUser(null);  // Clear user in context
+                setLoading(false);  // Stop loading on error
             });
+        } else {
+            setLoading(false); // No token, stop loading
         }
+    };
+
+    useEffect(() => {
+        validateTokenAndFetchUser(); // Call the function on component mount
     }, []);
-    
+
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
@@ -50,10 +64,15 @@ const App = () => {
                 }
             } catch (error) {
                 console.error("Failed to parse user data:", error);
-                localStorage.removeItem('user'); // Optionally remove the invalid item from storage
+                localStorage.removeItem('user'); // Remove invalid data
             }
         }
     }, [user, setUser]);
+
+    // Show loader while the app is verifying the token and loading user data
+    if (loading) {
+        return <Loader />;
+    }
 
     return (
         <Suspense fallback={<Loader />}>
@@ -68,6 +87,6 @@ const App = () => {
             </MyState>
         </Suspense>
     );
-}
+};
 
 export default App;

@@ -1,5 +1,5 @@
 import React, { useState,useContext } from 'react'
-import { BrowserRouter as Router, Route, NavLink, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink, Link, Switch, useNavigate } from "react-router-dom";
 
 import product from '../images/product_1.png';
 import Navbar from './Navbar'
@@ -22,7 +22,7 @@ const Item = ({
   const { cartitem, addCartItem } = useContext(Cartcontext);
   const { buyitem, addbuyitem } = useContext(Buycontext);
   const Login_Context = useContext(LoginContext);
-
+  const navigate = useNavigate();
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const [exist, setExist] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,10 @@ const Item = ({
       console.log('Cart is updating, please wait...');
       return;
     }
-
+    console.log('login user : ',Login_Context.user)
+    if(!Login_Context.user?.email){
+          navigate('/login');
+    }
     setIsCartUpdating(true);
     try {
       const prdt = {

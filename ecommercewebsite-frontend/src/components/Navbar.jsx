@@ -170,6 +170,9 @@ const Navbar = () => {
 
     fetchCart();
   }, []);
+
+
+  
   return (
     <div className="Navbar">
       <div className="Navbar_logo">
