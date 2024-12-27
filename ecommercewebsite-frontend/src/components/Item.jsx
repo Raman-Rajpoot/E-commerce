@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react'
+import React, { useState,useContext, useEffect } from 'react'
 import { BrowserRouter as Router, Route, NavLink, Link, Switch, useNavigate } from "react-router-dom";
 
 import product from '../images/product_1.png';
@@ -17,6 +17,8 @@ const Item = ({
   productName,
   productOldPrice,
   productNewPrice,
+  stock,
+  category
 }) => {
   const {counter, changeCounter} = useContext(MyContext);
   const { cartitem, addCartItem } = useContext(Cartcontext);
@@ -32,8 +34,12 @@ const Item = ({
     setIsAlertVisible(true);
     setTimeout(() => {
       setIsAlertVisible(false);
-    }, 2000); // Hide the alert after 3 seconds
+    }, 1500); // Hide the alert after2 seconds
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   async function addCart(product) {
     if (isCartUpdating) {
@@ -43,22 +49,23 @@ const Item = ({
     console.log('login user : ',Login_Context.user)
     if(!Login_Context.user?.email){
           navigate('/login');
+          return ;
     }
     setIsCartUpdating(true);
     try {
       const prdt = {
-        productId: product.productID,
-        productName: product.productName,
-        productImage: product.productImage,
-        productPrice: product.productNewPrice,
-        productOldPrice: product.productOldPrice || 0,
-        rating: product.rating || 0.0,
-        stock: product.stock || 3,
-        category: product.category || 'kids',
+        productId: productID,
+        productName: productName,
+        productImage: productImage,
+        productPrice: productNewPrice,
+        productOldPrice: productOldPrice || 0,
+        rating:  0.0,
+        stock: stock || 3,
+        category: category || 'kids',
       };
 
       let existingItemIndex = await cartitem.some((item) => {
-        return item.productId == product.productID;
+        return item.productId == productID;
       });
 
       setExist(existingItemIndex);
@@ -102,7 +109,7 @@ const Item = ({
     //   old_price: 80.5,
     // }
     <div className='Item'>
-      <Link to='/product'>
+      <Link to={`/product/${productID}`}>
         <img src={productImage} alt="item_image" className='Item_img' onClick={()=>{ addbuyitem({productID,productImage,productName,productOldPrice,productNewPrice})}}/>
         </Link>
         <div className='productDes'> {productName} </div>

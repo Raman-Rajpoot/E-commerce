@@ -9,6 +9,8 @@ import { productRouter } from "../routes/Product.route.js";
 import bodyParser from "body-parser";
 import { upload } from "../middlewares/multer.middleware.js";
 import NodeCache  from 'node-cache'
+import paymentRouter from "../routes/Payment.route.js";
+import reviewRouter from "../routes/Review.route.js";
 
 const app = express(); 
 export const cache = new NodeCache();
@@ -46,6 +48,8 @@ app.use('/api/v1/user',userRouter);
 app.use('/api/v1/owner',ownerRouter);
 app.use('/api/v1/product',productRouter);
 
+app.use('/api/v1/payment', paymentRouter);
+app.use('/api/v1/reviews',reviewRouter); 
 // app.get('/protected', authenticateToken, (req, res) => {
 //     res.json({ message: 'This is a protected route', user: req.user });
 // }); 

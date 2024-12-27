@@ -1,5 +1,5 @@
-import React, { useContext, useCallback, useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useContext, useCallback, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './One_cart.css';
 import cross from '../images/cart_cross_icon.png';
 import MyContext from '../Context/States/Context';
@@ -8,84 +8,82 @@ import Buycontext from '../Context/Buy_context/Buy_context';
 import LoginContext from '../Context/Login_context/LoginContext';
 
 function One_cart({
-  itemKey,  // Renamed from key to avoid conflict
+  itemKey, // Avoiding key conflict
   id,
   img,
   title,
-  price
+  price,
+  oldPrice
 }) {
   const Cart = useContext(MyContext);
-  const { cartitem, addCartItem } = useContext(Cartcontext);
-  const { buyitem, addbuyitem } = useContext(Buycontext);
-  const {user,setUser} = useContext(LoginContext);
+  const { addCartItem } = useContext(Cartcontext);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const { buyitem, addbuyitem } = useContext(Buycontext);
+  // Handles the removal of a cart item
   const handleRemoveItem = useCallback(async () => {
     setLoading(true);
     try {
-      const productId = parseInt(id, 10); // Ensure the id is an integer
+      const productId = parseInt(id, 10); // Ensure ID is a valid integer
 
       const response = await fetch('http://localhost:7000/api/v1/user/removecart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productID: productId }), // Send the id with a key
-        credentials: 'include'
+        body: JSON.stringify({ productID: productId }),
+        credentials: 'include',
       });
 
-      // Check if the response is JSON
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        const data = await response.json();
+      const data = await response.json();
 
-        if (response.ok) {
-          addCartItem(data.cart);
-          console.log('Updated cart:', data.cart, productId);
-        } else {
-          console.error('Error removing item:', data.message);
-          setIsAlertVisible(true); // Show an alert if needed
-        }
+      if (response.ok) {
+        addCartItem(data.cart);
+        console.log('Updated cart:', data.cart);
       } else {
-        console.error('Unexpected response type:', contentType);
-        setIsAlertVisible(true);
+        throw new Error(data.message || 'Failed to remove item');
       }
     } catch (error) {
-      console.error('Error during remove request:', error);
-      setIsAlertVisible(true); // Show an alert if needed
+      console.error('Error:', error.message);
+      setIsAlertVisible(true);
     } finally {
       setLoading(false);
     }
   }, [id, addCartItem]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <div className='closs'>
-      <Link to='/product' style={{ textDecoration: "none" }}>
-        <div className='cart-row'>
+    <div className="closs">
+      <Link to={`/product/${id}`} style={{ textDecoration: 'none' }} onClick={()=>{ addbuyitem({productID : id,productImage: img,productName: title,productOldPrice:oldPrice,productNewPrice:price})}}>
+        <div className="cart-row">
           <div>{itemKey}</div>
-          <img src={img} alt="cart-item" className='product-item-img' />
-          <div className='cart-title'>
-            {title}
-          </div>
-          <div>
-            {price}
-          </div>
+          <img src={img} alt="cart-item" className="product-item-img" />
+          <div className="cart-title">{title}</div>
+          <div>{price}</div>
         </div>
       </Link>
-      <img 
-        src={cross} 
-        alt="Remove" 
-        className='remove-icon'  
-        onClick={() => {
-          Cart.changeCounter(Cart.counter - 1);
-          handleRemoveItem();
-        }}
-      />
-      {isAlertVisible && <div className="alert">Error removing item. Please try again.</div>}
-      {loading && <div className="loading">Removing item...</div>}
+  
+      {/* Conditionally render the remove icon */}
+      {!loading && (
+        <img
+          src={cross}
+          alt="Remove"
+          className="remove-icon"
+          onClick={() => {
+            Cart.changeCounter(Math.max(0, Cart.counter - 1));
+            handleRemoveItem();
+          }}
+        />
+      )}
+  
+      {/* Alerts and Loading */}
+      {isAlertVisible && <div className="alert">❌ Error removing item. Please try again.</div>}
+      {loading && <div className="loading">⏳ Removing item...</div>}
     </div>
   );
+  
 }
 
 export default One_cart;

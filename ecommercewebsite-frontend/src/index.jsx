@@ -13,6 +13,7 @@ import ProductBuy from './components/ProductBuy.jsx';
 import Profile from './components/Profile.jsx';
 import SignUp from './components/SignUp.jsx';
 import LoginContextProvider from './Context/Login_context/LoginContextProvider.jsx';
+import Payment from './components/Payment.jsx';
 // import SearchResults from './components/SearchResult.jsx';
 
 // Create routes for your application
@@ -25,10 +26,11 @@ const router = createBrowserRouter(
       <Route path="kids" element={<Kids />} />
       <Route path="login" element={<Login />} />
       <Route path="cart" element={<Add_cart />} />
-      <Route path="product" element={<ProductBuy />} />
+      <Route path="product/:productId" element={<ProductBuy />} />
       <Route path="profile" element={<Profile />} />
       <Route path="signUp" element={<SignUp />} />
       {/* <Route path="/search" element={<SearchResults />} /> */}
+      <Route path="/payment" element={<Payment />} />
 
     </Route>
   )
@@ -36,9 +38,9 @@ const router = createBrowserRouter(
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  
     <LoginContextProvider>
       <RouterProvider router={router} />
     </LoginContextProvider>
-  </React.StrictMode>
+ 
 );

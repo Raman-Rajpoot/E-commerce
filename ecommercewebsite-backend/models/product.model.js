@@ -3,24 +3,6 @@ import mongoose, { Schema } from "mongoose";
 
 
 
-// Review subdocument schema
-const reviewSchema = new mongoose.Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  rating: {
-    type: mongoose.Schema.Types.Decimal128,
-    required: true,
-  },
-  comment: {
-    type: String,
-    required: true,
-  },
-  
-}, { timestamps: true });
-
 const productSchema = new mongoose.Schema({
       title:{
          type: String,
@@ -48,7 +30,6 @@ const productSchema = new mongoose.Schema({
      required: true,
      index: true
      },
-     reviews:[reviewSchema],
 
      description:{
       type: String

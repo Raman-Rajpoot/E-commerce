@@ -17,10 +17,13 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET, // Fixed api_secret variable
     secure: true
   });
-
+  app.use(cors({
+    origin: 'http://localhost:3000',  // The URL of your frontend
+    credentials: true,  // Allow credentials (cookies, etc.)
+}));
 connectDB().then(()=>{
     app.on("error",(err)=>{
-        console.log("Error!! ", err);
+        console.log("Error!! ", err); 
         throw err;
    });
    app.listen(process.env.PORT || 4000 ,()=>{

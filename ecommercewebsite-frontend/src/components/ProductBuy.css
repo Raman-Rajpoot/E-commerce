@@ -94,8 +94,8 @@
    color:black;
    font-size: 1.25em;
 }
-.btn button{
-    width: 200px;
+.btns button{
+    width: 250px;
     height: 33px;
     border-radius: 1rem;
     margin-top: 1.5rem;
@@ -109,11 +109,15 @@
     cursor: pointer;
     }
 .buybtn{
-    background-color: rgb(249, 249, 25);
+    background-color:  rgb(111, 255, 0);
+    color:#fff;
+    width: 100px;
 
 }   
 .cartbtn{
-    background-color: orange;
+    background-color: rgb(111, 255, 0);
+    color:#fff;
+    width: 100px;
 } 
 .quantity-label{
     font-size: 1em;
@@ -181,7 +185,7 @@
     padding-left: 0.1rem;
 }
 
-.btn button{ 
+.btns button{ 
     margin-top: 1rem;
     margin-bottom: 1rem;
     }
@@ -279,7 +283,7 @@
         font-size: 0.84em;
     }
     
-    .btn button{ 
+    .btns button{ 
         font-size: 0.85em;
         margin-top: 0.7rem;
         margin-bottom: 0.7rem;
@@ -326,7 +330,7 @@
         left: 0;
         font-size: 0.9em;
     } 
-    .btn button{ 
+    .btns button{ 
       /* width: inherit; */
         font-size: 0.85em;
         margin-top: 0.7rem;
@@ -349,7 +353,7 @@
   gap: 1rem;
    grid-column: 1 / span 2;
 }
-.btn button{
+.btnss button{
      width: 90vw;
 }
 .pt2{

@@ -3,13 +3,26 @@ import One_cart from './One_cart';
 import './Add_cart.css';
 import Cartcontext from '../Context/Cart_contex/Cart_contex';
 import MyContext from '../Context/States/Context';
+import Loader from './Loader';
+import LoginContext from '../Context/Login_context/LoginContext';
+import { useNavigate } from 'react-router-dom';
 
 function Add_cart() {
   const { cartitem, addCartItem } = useContext(Cartcontext); 
   const [loading, setLoading] = useState(false);
   const { counter, changeCounter } = useContext(MyContext);
+  const Login_Context = useContext(LoginContext);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
+    if (!Login_Context.user?.email) {
+      navigate('/login');  // Use navigate here
+      return;
+    }
     const fetchCart = async () => {
       setLoading(true);
       try {
@@ -37,7 +50,7 @@ function Add_cart() {
         console.log("Cart fetch operation completed");
       }
     };
-
+    
     fetchCart();
   }, []);
 
@@ -48,7 +61,7 @@ function Add_cart() {
         id={item?.productId}
         img={item?.productImage}
         title={item?.productName}
-        price={item?.productPrice.$numberDecimal}
+        price={item?.productPrice?.$numberDecimal}
         oldPrice={item?.productOldPrice?.$numberDecimal}
       />
     ))
@@ -66,7 +79,7 @@ function Add_cart() {
       <div className="hr"></div>
       <div>
         {loading ? (
-          <div>Loading...</div>
+          <div style={{ width: '90%' }}><Loader /> </div>
         ) : (
           memoizedCartItems
         )}

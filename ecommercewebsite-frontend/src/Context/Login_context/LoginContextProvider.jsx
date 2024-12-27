@@ -13,6 +13,7 @@ function LoginContextProvider({ children }) {
             } catch (error) {
                 console.error("Error parsing stored user data:", error);
                 // If there's an error, clear the invalid data
+                setUser(null);
                 localStorage.removeItem("user");
             }
         }

@@ -64,3 +64,16 @@
         width: 75vw;
     }
 }
+.alert {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .loading {
+    color: #007bff;
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  

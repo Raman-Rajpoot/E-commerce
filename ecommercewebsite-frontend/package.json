@@ -7,11 +7,14 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@reduxjs/toolkit": "^2.2.7",
+    "@stripe/react-stripe-js": "^3.1.1",
+    "@stripe/stripe-js": "^5.4.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.3",
     "firebase": "^10.12.4",
+    "js-cookie": "^3.0.5",
     "react-hot-toast": "^2.4.1",
     "react-icon": "^1.0.0",
     "react-redux": "^9.1.2",
@@ -43,6 +46,6 @@
     ]
   },
   "devDependencies": {
-    "react-router-dom": "^6.12.0"
+    "react-router-dom": "^6.27.0"
   }
 }

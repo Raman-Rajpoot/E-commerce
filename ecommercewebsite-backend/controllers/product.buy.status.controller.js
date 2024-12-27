@@ -7,6 +7,7 @@ import { Product } from '../models/product.model.js';
 import { Owner } from '../models/owner.product.model.js';
 import mongoose from 'mongoose';
 
+
 const buyProductStatus = asyncHandler(async (req,res)=>{
     const {id} = req.params;
     const product = await Product.findById(id);

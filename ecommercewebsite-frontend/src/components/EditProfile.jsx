@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EditeProfile.css';
 function EditProfile({ user, onSave }) {
   const [formState, setFormState] = useState({
@@ -9,6 +9,10 @@ function EditProfile({ user, onSave }) {
     city: user.city || '',
     zipCode: user.zipCode || ''
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

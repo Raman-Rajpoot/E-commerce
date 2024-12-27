@@ -29,21 +29,21 @@ const useDebounce = (value, delay) => {
 };
 
 // SearchBar Component
-const SearchBar = ({ searchQuery, handleSearchChange, handleSearchSubmit, handleKeyDown }) => (
-  <div className="search-icon-container">
-    <input
-      type="text"
-      className="search-input"
-      value={searchQuery}
-      onChange={handleSearchChange}
-      placeholder="Search..."
-      onKeyDown={handleKeyDown}
-    />
-    <button className="search-button" onClick={handleSearchSubmit}>
-      <FontAwesomeIcon icon={faSearch} />
-    </button>
-  </div>
-);
+// const SearchBar = ({ searchQuery, handleSearchChange, handleSearchSubmit, handleKeyDown }) => (
+//   <div className="search-icon-container">
+//     <input
+//       type="text"
+//       className="search-input"
+//       value={searchQuery}
+//       onChange={handleSearchChange}
+//       placeholder="Search..."
+//       onKeyDown={handleKeyDown}
+//     />
+//     <button className="search-button" onClick={handleSearchSubmit}>
+//       <FontAwesomeIcon icon={faSearch} />
+//     </button>
+//   </div>
+// );
 
 const Navbar = () => {
   const userInfo = useContext(LoginContext);
@@ -83,23 +83,23 @@ const Navbar = () => {
 
   const [select, changeSelected] = useState(path);
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
+  // const handleSearchChange = (e) => {
+  //   setSearchQuery(e.target.value);
+  // };
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery) {
-      setSearchHistory(prevHistory => [searchQuery, ...prevHistory]); // Use functional update
-    }
-    setSearchQuery('');
-  };
+  // const handleSearchSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (searchQuery) {
+  //     setSearchHistory(prevHistory => [searchQuery, ...prevHistory]); // Use functional update
+  //   }
+  //   setSearchQuery('');
+  // };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSearchSubmit(e);
-    }
-  };
+  // const handleKeyDown = (e) => {
+  //   if (e.key === 'Enter') {
+  //     handleSearchSubmit(e);
+  //   }
+  // };
 
   const handleLogout = async ()=> {
       try {
@@ -127,14 +127,14 @@ const Navbar = () => {
     setMenuOpen(false); // Close the menu after a selection is made
   };
 
-  const renderSearchBar = useCallback(() => (
-    <SearchBar
-      searchQuery={debouncedSearchQuery}
-      handleSearchChange={handleSearchChange}
-      handleSearchSubmit={handleSearchSubmit}
-      handleKeyDown={handleKeyDown}
-    />
-  ), [debouncedSearchQuery, handleSearchChange, handleSearchSubmit, handleKeyDown]);
+  // const renderSearchBar = useCallback(() => (
+  //   <SearchBar
+  //     searchQuery={debouncedSearchQuery}
+  //     handleSearchChange={handleSearchChange}
+  //     handleSearchSubmit={handleSearchSubmit}
+  //     handleKeyDown={handleKeyDown}
+  //   />
+  // ), [debouncedSearchQuery, handleSearchChange, handleSearchSubmit, handleKeyDown]);
  const { cartitem, addCartItem } = useContext(Cartcontext); 
   const [loading, setLoading] = useState(false);
   const { counter, changeCounter } = useContext(MyContext);
@@ -205,7 +205,7 @@ const Navbar = () => {
           <Link to="kids" onClick={() => handleMenuClick("Kids")} className={select === "Kids" ? "selected" : ""} style={{ textDecoration: "none" }}>Kids</Link>
         </div>
 
-        {windowWidth >= 1100 && renderSearchBar()}
+        {/* {windowWidth >= 1100 && renderSearchBar()} */}
 
         <div className="Navbar_login">
           {userInfo?.user ? ( 
@@ -235,7 +235,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {windowWidth < 1100 && renderSearchBar()}
+      {/* {windowWidth < 1100 && renderSearchBar()} */}
 
       <div className="search-history">
         <ul>

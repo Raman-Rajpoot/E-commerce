@@ -11,65 +11,54 @@ import LoginContext from './Context/Login_context/LoginContext.js';
 
 const App = () => {
     const { user, setUser } = useContext(LoginContext);
-    const [loading, setLoading] = useState(true);  // State to track loading
+    const [loading, setLoading] = useState(true);
 
-    // Function to handle token validation and user fetch
-    const validateTokenAndFetchUser = () => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            fetch('http://localhost:7000/api/v1/user/getCurrentUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.valid) {
-                    // If token is valid, set the user data in context
-                    setUser(data.user);
-                } else {
-                    // Invalid token, clear user data but don't redirect
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    setUser(null);  // Clear user in context
-                }
-                setLoading(false);  // Set loading to false after validation
-            })
-            .catch(() => {
-                // In case of an error, clear user and token
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                setUser(null);  // Clear user in context
-                setLoading(false);  // Stop loading on error
+    // Clear localStorage and reset user context
+    const clearLocalStorageAndContext = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
+    };
+
+    // Fetch and validate current user based on token
+    const validateTokenAndFetchUser = async () => {
+        try {
+            const response = await fetch('http://localhost:7000/api/v1/user/getCurrentUser', {
+                method: 'GET',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
             });
-        } else {
-            setLoading(false); // No token, stop loading
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('User data:', data);
+                const savedUser = {
+                    _id: data.data._id,
+                    cart: data.data.cart,
+                    fullName: data.data.fullName,
+                    userName: data.data.userName,
+                    email: data.data.email,
+                    userLocation: data.data.userLocation,
+                    
+                };
+                setUser(savedUser);
+            } else {
+                console.warn("Failed to validate user. Clearing context.");
+                clearLocalStorageAndContext();
+            }
+        } catch (error) {
+            console.error("Error validating token:", error);
+            clearLocalStorageAndContext();
+        } finally {
+            setLoading(false);
         }
     };
 
+    // Run validation on component mount
     useEffect(() => {
-        validateTokenAndFetchUser(); // Call the function on component mount
+        validateTokenAndFetchUser();
     }, []);
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            try {
-                const parsedUser = JSON.parse(storedUser);
-                if (parsedUser && !user) {
-                    setUser(parsedUser);
-                    console.log("User loaded from localStorage:", parsedUser);
-                }
-            } catch (error) {
-                console.error("Failed to parse user data:", error);
-                localStorage.removeItem('user'); // Remove invalid data
-            }
-        }
-    }, [user, setUser]);
-
-    // Show loader while the app is verifying the token and loading user data
     if (loading) {
         return <Loader />;
     }

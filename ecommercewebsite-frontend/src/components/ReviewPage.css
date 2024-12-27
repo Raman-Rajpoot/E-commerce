@@ -1,0 +1,219 @@
+/* Container */
+.review-page {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  text-align: center; /* Keeps outer elements like title and form center-aligned */
+}
+
+/* Title */
+.review-title {
+  color: #f28500;
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Review Form */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  border: 2px solid #f28500;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.review-form input,
+.review-form select,
+.review-form textarea {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.review-form textarea {
+  resize: none;
+}
+
+.review-form button {
+  padding: 10px 15px;
+  font-size: 18px;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.review-form button:hover {
+  background-color: #218838;
+}
+
+/* Review List */
+.review-list {
+  margin-top: 20px;
+  text-align: left; /* Aligns the review content to the left */
+}
+
+/* Individual Review Card */
+.review-card {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left; /* Ensures content inside card starts from left */
+}
+
+.rating-stars img {
+  width: 16px;
+  margin-right: 2px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-card p {
+  margin: 10px 0;
+  color: #555;
+  font-size: 15px;
+}
+
+/* No Reviews Text */
+.no-reviews {
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
+  text-align: center; /* Center text only for the no-reviews message */
+}
+
+.review-date {
+  color: #666;
+  font-size: 12px;
+}
+
+.review-comment {
+  font-style: italic;
+  margin: 10px 0;
+}
+
+/* ReviewPage.css */
+
+/* General layout */
+.review-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.review-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 16px 0;
+  padding: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.review-user {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+}
+
+.star-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+}
+
+.review-comment {
+  font-size: 16px;
+  margin: 8px 0;
+  color: #555;
+}
+
+/* Action buttons */
+.review-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #45a049;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #e53935;
+}
+
+/* Empty state and loading message */
+.loading-message,
+.no-reviews-message {
+  text-align: center;
+  font-size: 16px;
+  color: #777;
+  margin-top: 24px;
+}
+/* CSS for the review date */
+.review-date {
+  font-size: 0.9rem; /* Slightly smaller than normal text */
+  color: #f3814f; /* Subtle gray color for less emphasis */
+  margin-top: 5px; /* Add some spacing above the date */
+  font-style: italic; /* Make it look distinct with italics */
+}
+
+/* Optional: Hover effect for the date */
+.review-date:hover {
+  color: #5b86c7; /* Slightly darker gray on hover */
+  text-decoration: underline; /* Underline to highlight */
+}
+

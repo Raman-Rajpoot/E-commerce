@@ -11,6 +11,7 @@ import  jwt  from 'jsonwebtoken';
 
  const generateRefreshAcesssToken =async (id)=>{
     try{
+        console.log(id)
     const user =await User.findById(id);
     console.log(user._id);
     const accessToken = user.generateAccessToken();
@@ -45,7 +46,8 @@ const userRegister = asyncHandler(async (req,res)=>{
         $or: [{ email }, {userName}]
     }) 
     if (UserExist) {
-        throw new ApiError(409, "User with email or username already exists")
+        res.status(400).json({ message: "USER ALREADY EXISTS" });
+        return;
     }
     console.log("req : ",req.files); 
 
@@ -96,16 +98,18 @@ const loginUser = asyncHandler(async (req, res)=>{
    const passwordCheck=await Existuser.isPasswordCorrect(password);
     console.log(passwordCheck)
    if(!passwordCheck) throw new ApiError(400, "password is incorrect");
- 
-    const {accessToken, refreshToken} =await  generateRefreshAcesssToken(Existuser._id);
-//  console.log(accessToken,refreshToken)
+ const token = await  generateRefreshAcesssToken(Existuser._id);
+ console.log(token)
+    const {accessToken, refreshToken} = await  generateRefreshAcesssToken(Existuser._id);
+ console.log(accessToken,refreshToken)
  if(!accessToken || !refreshToken) throw new ApiError(400, "Token not found")
 //    req.user= Existuser;
 const user = await User.findById(Existuser._id).select("-password -refreshToken" );
 
    const options= {
     httpOnly:true,
-    secure: true
+    secure: false,
+    maxAge: 60 * 60 * 1000,
    }
  console.log(user);
    return res.status(200).cookie("accessToken", accessToken,options).cookie("refreshToken",  refreshToken,options).json(new ApiResponce(
@@ -277,8 +281,11 @@ try {
 }   })
 
 const getCurrentUser = asyncHandler(async (req,res)=>{
+    console.log("Start")
     const userId= req.user?._id;
+    console.log(userId)
     const user =await User.findById(userId).select("-password -refreshToken");
+    console.log(user)
     if(!user) throw new ApiError(404, 'Invalid user');
 
     return  res.status(200).json(new ApiResponce(200, user, "user fetched successfully"));
@@ -297,7 +304,7 @@ const deleteUser = asyncHandler(async (req,res)=>{
 
     const options= {
      httpOnly:true,
-     secure: true
+     secure: false
     } 
  
     return res
