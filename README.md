@@ -15,7 +15,9 @@ Welcome to the Ecommerce Website repository! This project includes both the fron
 - **Product Catalog**: Browse a variety of products organized into categories.
 - **Shopping Cart**: Add products to your cart for easy checkout.
 - **Responsive Design**: Mobile-friendly interface that adapts to all device sizes.
-
+- **payment system**: Secure payment processing with Stripe.
+- **Review System** : Allows users to submit reviews for purchased products.
+  
 ### **Technologies Used**
 
 - **React.js**: For building dynamic and interactive user interfaces.
