@@ -14,9 +14,9 @@ import Profile from './components/Profile.jsx';
 import SignUp from './components/SignUp.jsx';
 import LoginContextProvider from './Context/Login_context/LoginContextProvider.jsx';
 import Payment from './components/Payment.jsx';
-// import SearchResults from './components/SearchResult.jsx';
 
-// Create routes for your application
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -29,7 +29,7 @@ const router = createBrowserRouter(
       <Route path="product/:productId" element={<ProductBuy />} />
       <Route path="profile" element={<Profile />} />
       <Route path="signUp" element={<SignUp />} />
-      {/* <Route path="/search" element={<SearchResults />} /> */}
+      
       <Route path="/payment" element={<Payment />} />
 
     </Route>

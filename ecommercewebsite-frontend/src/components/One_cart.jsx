@@ -8,7 +8,7 @@ import Buycontext from '../Context/Buy_context/Buy_context';
 import LoginContext from '../Context/Login_context/LoginContext';
 
 function One_cart({
-  itemKey, // Avoiding key conflict
+  itemKey, 
   id,
   img,
   title,
@@ -20,11 +20,11 @@ function One_cart({
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const { buyitem, addbuyitem } = useContext(Buycontext);
-  // Handles the removal of a cart item
+  
   const handleRemoveItem = useCallback(async () => {
     setLoading(true);
     try {
-      const productId = parseInt(id, 10); // Ensure ID is a valid integer
+      const productId = parseInt(id, 10); 
 
       const response = await fetch('http://localhost:7000/api/v1/user/removecart', {
         method: 'POST',
@@ -39,7 +39,7 @@ function One_cart({
 
       if (response.ok) {
         addCartItem(data.cart);
-        console.log('Updated cart:', data.cart);
+        
       } else {
         throw new Error(data.message || 'Failed to remove item');
       }
@@ -65,7 +65,7 @@ function One_cart({
         </div>
       </Link>
   
-      {/* Conditionally render the remove icon */}
+     
       {!loading && (
         <img
           src={cross}
@@ -78,7 +78,7 @@ function One_cart({
         />
       )}
   
-      {/* Alerts and Loading */}
+     
       {isAlertVisible && <div className="alert">❌ Error removing item. Please try again.</div>}
       {loading && <div className="loading">⏳ Removing item...</div>}
     </div>

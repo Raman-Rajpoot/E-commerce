@@ -8,7 +8,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(""); // Add error message state
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
     const { setUser } = useContext(LoginContext);
     const { addCartItem } = useContext(Cartcontext);
@@ -16,7 +16,7 @@ const Login = () => {
     const loginHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setErrorMessage(""); // Clear previous error message
+        setErrorMessage(""); 
 
         try {
             const response = await fetch('http://localhost:7000/api/v1/user/login', {
@@ -30,19 +30,19 @@ const Login = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                
+
                 if (data?.cart) addCartItem(data.cart);
                 setUser(data.data.user);
-                console.log('Logged in successfully:', data.data.user);
-                navigate('/'); // Redirect to home after login
+
+                navigate('/');
             } else {
                 const errorMessage = await response.text();
-                setErrorMessage(errorMessage); // Set the error message
+                setErrorMessage(errorMessage);
                 console.error('Login failed:', errorMessage);
             }
         } catch (error) {
             console.error('Error during login:', error);
-            setErrorMessage("An unexpected error occurred. Please try again."); // Set a generic error message
+            setErrorMessage("An unexpected error occurred. Please try again.");
         } finally {
             setLoading(false);
             setEmail("");
@@ -79,10 +79,10 @@ const Login = () => {
                         {loading ? "Loading..." : "Continue"}
                     </button>
                 </form>
-                
+
                 {/* Show error message if login fails */}
                 {errorMessage && <div className="errorMessage">{errorMessage}</div>}
-                
+
                 <NavLink to="/signUp" style={{ textDecoration: "none" }}>
                     <div className='signUp'>Sign Up</div>
                 </NavLink>

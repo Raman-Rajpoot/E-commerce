@@ -9,8 +9,6 @@ const { verify } = jwt;
 
 
 const verifyJwt=asyncHandler( async (req,res,next)=>{
-    console.log('start jwt');
-    console.log(req.cookies.accessToken)
     try{
     const accessToken=  req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
     if(!accessToken) throw new ApiError(404, "Unauthorized user");
@@ -21,10 +19,8 @@ const verifyJwt=asyncHandler( async (req,res,next)=>{
     if(!user) throw new ApiError(404, " user not found ");
 
     req.user= user;
-    console.log("next")
     next();
     }catch(err){
-        console.log(err.messege);
         throw new ApiError(400, "error occure during authrising user");
     }
 });

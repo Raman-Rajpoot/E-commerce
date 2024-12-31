@@ -14,7 +14,7 @@ import Cartcontext from "../Context/Cart_contex/Cart_contex.js";
 // Debounce hook
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
- 
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
@@ -48,7 +48,7 @@ const useDebounce = (value, delay) => {
 const Navbar = () => {
   const userInfo = useContext(LoginContext);
   const Cart = useContext(MyContext);
-  const {user,setUser} = useContext(LoginContext);
+  const { user, setUser } = useContext(LoginContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchHistory, setSearchHistory] = useState(['example1', 'example2', 'example3']);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -59,7 +59,7 @@ const Navbar = () => {
   useEffect(() => {
     if (userInfo?.user) {
 
-      console.log("User Info after login:", userInfo.user);
+      // console.log("User Info after login:", userInfo.user);
     }
   }, [userInfo]);
 
@@ -101,41 +101,32 @@ const Navbar = () => {
   //   }
   // };
 
-  const handleLogout = async ()=> {
-      try {
-          const response = await fetch('http://localhost:7000/api/v1/user/logOut', {
-              method: 'POST',
-              credentials: 'include' // Ensure cookies are sent with the request
-          });
-          if (response.ok) {
-            localStorage.clear();
-            setUser(null)
-            changeCounter(0);
-            navigate('/')
-              console.log('Logout successful');
-              // Handle successful logout (e.g., redirect user or update UI)
-          } else {
-              console.error('Logout failed');
-          }
-      } catch (error) {
-          console.error('Error during logout:', error);
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:7000/api/v1/user/logOut', {
+        method: 'POST',
+        credentials: 'include'
+      });
+      if (response.ok) {
+        localStorage.clear();
+        setUser(null)
+        changeCounter(0);
+        navigate('/')
+
+      } else {
+        console.error('Logout failed');
       }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   }
-  
+
   const handleMenuClick = (selectedPath) => {
     changeSelected(selectedPath);
-    setMenuOpen(false); // Close the menu after a selection is made
+    setMenuOpen(false);
   };
 
-  // const renderSearchBar = useCallback(() => (
-  //   <SearchBar
-  //     searchQuery={debouncedSearchQuery}
-  //     handleSearchChange={handleSearchChange}
-  //     handleSearchSubmit={handleSearchSubmit}
-  //     handleKeyDown={handleKeyDown}
-  //   />
-  // ), [debouncedSearchQuery, handleSearchChange, handleSearchSubmit, handleKeyDown]);
- const { cartitem, addCartItem } = useContext(Cartcontext); 
+  const { cartitem, addCartItem } = useContext(Cartcontext);
   const [loading, setLoading] = useState(false);
   const { counter, changeCounter } = useContext(MyContext);
 
@@ -150,13 +141,12 @@ const Navbar = () => {
           },
           credentials: 'include'
         });
-      
+
         if (response.ok) {
           const data = await response.json();
           changeCounter(data.cart.length);
           addCartItem(data.cart);
-          console.log(counter);
-          console.log('Cart fetched successfully:', data.cart);
+
         } else {
           console.error('Failed to fetch cart');
         }
@@ -164,7 +154,7 @@ const Navbar = () => {
         console.error('Error during fetching cart:', error);
       } finally {
         setLoading(false);
-        console.log("Cart fetch operation completed");
+
       }
     };
 
@@ -172,7 +162,7 @@ const Navbar = () => {
   }, []);
 
 
-  
+
   return (
     <div className="Navbar">
       <div className="Navbar_logo">
@@ -186,15 +176,15 @@ const Navbar = () => {
           <p className="logo_name">Bazzar</p>
         </Link>
       </div>
-      
-      <button 
+
+      <button
         className="menu-icon"
-        onClick={() => setMenuOpen(prevMenuOpen => !prevMenuOpen)} // Use functional update
+        onClick={() => setMenuOpen(prevMenuOpen => !prevMenuOpen)}
         aria-label="Toggle menu"
         aria-expanded={menuOpen}
         aria-controls="navigation"
       >
-        <img src={menuOpen ? cross : menu} alt="menu" className="menuIcon" style={menuOpen ? {position: 'fixed'} : {position:"static"}}/>
+        <img src={menuOpen ? cross : menu} alt="menu" className="menuIcon" style={menuOpen ? { position: 'fixed' } : { position: "static" }} />
       </button>
 
       <div className={menuOpen ? "Nav-cnt vis" : "Nav-cnt"} id="navigation">
@@ -205,17 +195,17 @@ const Navbar = () => {
           <Link to="kids" onClick={() => handleMenuClick("Kids")} className={select === "Kids" ? "selected" : ""} style={{ textDecoration: "none" }}>Kids</Link>
         </div>
 
-        {/* {windowWidth >= 1100 && renderSearchBar()} */}
+
 
         <div className="Navbar_login">
-          {userInfo?.user ? ( 
+          {userInfo?.user ? (
             <>
               <NavLink to="/profile" style={{ textDecoration: "none" }} className="Profile">
-                <div   style={windowWidth >= 1100 ?{width:"2rem",height:"2rem", border:'0.01px solid black', borderRadius:"50%", textAlign:"center",fontWeight:"bold", color:"orangered",fontSize:"1.3em",backgroundColor:"transparent" }:{textDecoration: "none", color: "black", fontWeight:'400',fontSize: '1rem' }}>
+                <div style={windowWidth >= 1100 ? { width: "2rem", height: "2rem", border: '0.01px solid black', borderRadius: "50%", textAlign: "center", fontWeight: "bold", color: "orangered", fontSize: "1.3em", backgroundColor: "transparent" } : { textDecoration: "none", color: "black", fontWeight: '400', fontSize: '1rem' }}>
                   {windowWidth >= 1100 ? userInfo?.user?.userName[0]?.toUpperCase() || "U" : "Profile"}
                 </div>
               </NavLink>
-             
+
             </>
           ) : (
             <NavLink to="/login" className="login" style={{ textDecoration: "none" }}>Login</NavLink>
@@ -235,7 +225,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* {windowWidth < 1100 && renderSearchBar()} */}
 
       <div className="search-history">
         <ul>

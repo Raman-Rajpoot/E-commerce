@@ -38,8 +38,6 @@ function Add_cart() {
           const data = await response.json();
           changeCounter(data.cart.length);
           addCartItem(data.cart);
-          console.log(counter);
-          console.log('Cart fetched successfully:', data.cart);
         } else {
           console.error('Failed to fetch cart');
         }
@@ -47,7 +45,7 @@ function Add_cart() {
         console.error('Error during fetching cart:', error);
       } finally {
         setLoading(false);
-        console.log("Cart fetch operation completed");
+        
       }
     };
     

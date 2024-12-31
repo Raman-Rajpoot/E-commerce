@@ -13,7 +13,7 @@ const CheckoutForm = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [paymentSuccess, setPaymentSuccess] = useState(false);
     const location = useLocation();
-    const { totalPrice } = location.state || {}; // Access the amount from state
+    const { totalPrice } = location.state || {}; 
   
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +25,7 @@ const CheckoutForm = () => {
             const response = await fetch('http://localhost:7000/api/v1/payment/create-payment-intent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ totalPrice: totalPrice * 100 }) // Amount in cents ($50.00)
+                body: JSON.stringify({ totalPrice: totalPrice * 100 }) 
             });
 
             if (!response.ok) {
@@ -61,11 +61,7 @@ const CheckoutForm = () => {
                         <label htmlFor="card-element">Card Details</label>
                         <CardElement id="card-element" />
                     </div>
-                    {/* You can enable the ZIP field here if required */}
-                    {/* <div className="input-group">
-                        <label htmlFor="zip">ZIP Code</label>
-                        <input type="text" id="zip" placeholder="Enter ZIP Code" />
-                    </div> */}
+                    
                     <button type="submit" disabled={!stripe || loading} className='btn'>
                         {loading ? `Processing...` : `Pay $ ${totalPrice}`}
                     </button>

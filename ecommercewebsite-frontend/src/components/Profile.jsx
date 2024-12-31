@@ -31,15 +31,15 @@ function Profile() {
         const response = await fetch('http://localhost:7000/api/v1/user/getUserInfo', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${userInformation.token}` // Replace with actual token
+            'Authorization': `Bearer ${userInformation.token}` 
           },
           credentials: 'include'
         });
         const result = await response.json();
         if (response.ok) {
-          console.log("userdata",result.data)
+          // console.log("userdata",result.data)
           const updatedInformation = {
-            username: result.data.userName || userInfo.username,  // Default to existing userInfo values if not provided
+            username: result.data.userName || userInfo.username,  
             email: result.data.email || userInfo.email,
             fullname: result.data.fullName || userInfo.fullname,
             tele: result.data.tele || userInfo.tele,
@@ -112,19 +112,19 @@ function Profile() {
     try {
       const response = await fetch('http://localhost:7000/api/v1/user/logOut', {
         method: 'POST',
-        credentials: 'include' // Ensure cookies are sent with the request
+        credentials: 'include' 
       });
       if (response.ok) {
-        localStorage.clear(); // Clear all data from local storage
+        localStorage.clear(); 
         
         if (userInformation?.clearUser) {
-          userInformation.clearUser(); // Clear user data from context or state management
+          userInformation.clearUser(); 
         }
-        console.log('Logout successful');
+       
         changeCounter(0);
-                // Redirect to the home or login page after a short delay
+                
       setTimeout(() => {
-        navigate('/'); // Redirect to the home or login page
+        navigate('/'); 
       }, 10)
       } else {
         console.error('Logout failed');
@@ -147,10 +147,6 @@ function Profile() {
             <label htmlFor="fullname">FullName:</label>
             <span id="fullname">{userInfo.fullname}</span>
           </div>
-          {/* <div className="profile-info">
-            <label htmlFor="tele">Mobile No.:</label>
-            <span id="tele">{userInfo.tele}</span>
-          </div> */}
           <div className="profile-info">
             <label htmlFor="email">Email:</label>
             <span id="email">{userInfo.email}</span>

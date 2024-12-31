@@ -28,18 +28,15 @@ function ProductBuy() {
   const [item, setItem] = useState(buyitem || JSON.parse(localStorage.getItem('buyitem')));
   const Login_Context = useContext(LoginContext);
   useEffect(() => {
-    // Save buyitem to localStorage when it changes
     if (buyitem) {
-      // localStorage.setItem('buyitem', JSON.stringify(buyitem));
       setItem(buyitem);
     }
   }, [buyitem]);
 
   useEffect(() => {
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
     if (!Login_Context.user?.email) {
-      navigate('/login');  // Use navigate here
+      navigate('/login');  
       return;
     }
   }, []);
@@ -65,12 +62,9 @@ function ProductBuy() {
   return (
     <div>
       <div className="pt">
-        {/* Product Image */}
         <div className="productImg">
           <img src={item.productImage} alt="img" />
         </div>
-
-        {/* Product Details */}
         <div className="pt2">
           <div className="desc">{item.productName}</div>
 
@@ -170,21 +164,6 @@ function ProductBuy() {
       </div>
 
       <hr className="hr" />
-
-      {/* Suggestions */}
-      {/* <div className="suggestion">
-        {new_collection.map((product) => (
-          <Item
-            key={product.id}
-            productID={product.id}
-            productImage={product.image}
-            productName={product.name}
-            productOldPrice={product.old_price}
-            productNewPrice={product.new_price}
-            className="New_items"
-          />
-        ))}
-      </div> */}
       <ReviewPage />
     </div>
   );

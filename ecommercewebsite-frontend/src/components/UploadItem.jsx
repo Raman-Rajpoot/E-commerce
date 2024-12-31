@@ -1,5 +1,5 @@
 import React from 'react';
-import './UploadItem.css'; // Import the CSS file
+import './UploadItem.css'; 
 
 function UploadItem() {
   return (
@@ -14,7 +14,7 @@ function UploadItem() {
         <input type="number" name="price" id="price" className="form-input" />
        
         <label htmlFor="description" className="form-label">Enter Item Description: </label>
-        {/* <input type="textarea" name="description" id="description" className="form-input" row='5'/> */}
+       
          <textarea name="decription" id="decription"  className="form-input" rows= '4'></textarea>
 
         <label htmlFor="image" className="form-label">Upload Image of Item: </label>

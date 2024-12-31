@@ -13,18 +13,3 @@ const asyncHandler =(fn)=>(req,res,next)=>{
 
 export { asyncHandler} ;
 
-// RAPER FOR HANDLE DATA FROM DATABASE (ASYNC AWAIT) ----> 2ND METHOD
-
-// const asyncHandler = (fn) =>{ 
-//     async (req,res,next)=>{
-//          try{
-//              await fn(req,res ,next);
-//          }
-//          catch(err){
-//                 res.status( err.code || 500).json({
-//                     success: false,
-//                     message : err.message
-//                 });
-//          }
-//     }
-// }

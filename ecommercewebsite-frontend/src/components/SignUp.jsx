@@ -8,23 +8,22 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [cpass, setCpass] = useState("");
   const [name, setName] = useState("");
-  const [error, setError] = useState(""); // State for general error messages
-  const [success, setSuccess] = useState(""); // State for success message
-  const [termsAccepted, setTermsAccepted] = useState(false); // State for Terms & Conditions checkbox
+  const [error, setError] = useState(""); 
+  const [success, setSuccess] = useState(""); 
+  const [termsAccepted, setTermsAccepted] = useState(false); 
   const [fieldError, setFieldError] = useState({
     username: "",
     email: "",
     password: "",
     cpass: "",
     terms: "",
-  }); // State to store error messages for individual fields
-  const navigate = useNavigate(); // Hook to navigate programmatically
+  }); 
+  const navigate = useNavigate(); 
 
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const usernamePattern = /^[a-zA-Z][a-zA-Z0-9._]{2,15}$/;
   const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
-  // Username validation using useEffect
   useEffect(() => {
     if (username) {
       if (!usernamePattern.test(username)) {
@@ -36,9 +35,8 @@ const SignUp = () => {
         setFieldError((prev) => ({ ...prev, username: "" }));
       }
     }
-  }, [username]); // Dependency on the username field
+  }, [username]); 
 
-  // Email validation using useEffect
   useEffect(() => {
     if (email) {
       if (!emailPattern.test(email)) {
@@ -50,23 +48,22 @@ const SignUp = () => {
         setFieldError((prev) => ({ ...prev, email: "" }));
       }
     }
-  }, [email]); // Dependency on the email field
+  }, [email]); 
 
-  // Password validation using useEffect
   useEffect(() => {
     if (password) {
       if (!passwordPattern.test(password)) {
         setFieldError((prev) => ({
           ...prev,
-          password: "Password must be 8-20 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+          password: "Password must be 8-20 characters long and Strong.",
         }));
       } else {
         setFieldError((prev) => ({ ...prev, password: "" }));
       }
     }
-  }, [password]); // Dependency on the password field
+  }, [password]); 
 
-  // Confirm Password validation using useEffect
+  
   useEffect(() => {
     if (cpass) {
       if (cpass !== password) {
@@ -78,7 +75,7 @@ const SignUp = () => {
         setFieldError((prev) => ({ ...prev, cpass: "" }));
       }
     }
-  }, [cpass, password]); // Dependency on both cpass and password fields
+  }, [cpass, password]); 
 
   const SignUpHandler = async (event) => {
     event.preventDefault();
@@ -113,15 +110,15 @@ const SignUp = () => {
         },
         body: JSON.stringify(user),
       });
-      console.log(response)
+     
       if (response.ok) {
         const data = await response.json();
-        setError(""); // Clear error after successful registration
+        setError(""); 
         setSuccess("User registered successfully!");
         setTimeout(() => {
-          navigate("/login"); // Navigate to login page after a short delay
-        }, 2000); // Delay of 2 seconds before navigating to login
-        console.log("User registered:", data);
+          navigate("/login"); 
+        }, 2000);
+       
       }
        else {
         const errorData = await response.json();
@@ -134,7 +131,6 @@ const SignUp = () => {
   };
 
   const handleFieldChange = (field, value) => {
-    // Update the respective field value
     switch (field) {
       case "username":
         setUsername(value);
@@ -246,8 +242,8 @@ const SignUp = () => {
             value="Continue" 
             className='SignUp_btn' 
           />
-          {error && <p className='error-message'>{error}</p>} {/* Display error message */}
-          {success && <p className='success-message'>{success}</p>} {/* Display success message */}
+          {error && <p className='error-message'>{error}</p>} 
+          {success && <p className='success-message'>{success}</p>} 
         </form>
         <NavLink to="/login" style={{ textDecoration: "none" }}>
           <div className='Login'>Login</div>

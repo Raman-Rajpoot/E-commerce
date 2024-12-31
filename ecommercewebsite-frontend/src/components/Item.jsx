@@ -43,10 +43,9 @@ const Item = ({
 
   async function addCart(product) {
     if (isCartUpdating) {
-      console.log('Cart is updating, please wait...');
+      
       return;
     }
-    console.log('login user : ',Login_Context.user)
     if(!Login_Context.user?.email){
           navigate('/login');
           return ;
@@ -83,13 +82,13 @@ const Item = ({
         credentials: 'include', // Ensure cookies are sent with the request
       });
       setIsCartUpdating(false);
-      console.log('PRODUCT:: ', prdt);
+      
       if (response.ok) {
         const data = await response.json();
         addCartItem(data.data);
         changeCounter(counter+1)
-        console.log(counter)
-        console.log('Product added to cart:', data.data);
+       
+      
       } else {
         console.error('Failed to add product to cart');
       }
@@ -123,7 +122,7 @@ const Item = ({
         //   return;
         // }
       
-          // console.log(isexist)
+          console.log(isexist)
           
             addCart(product={productID,productImage,productName,productNewPrice,productOldPrice});
         
@@ -140,7 +139,7 @@ const Item = ({
        
     </div>
   )
-  // console.log(productNewPrice)
+  console.log(productNewPrice)
 }
 
 export default Item;

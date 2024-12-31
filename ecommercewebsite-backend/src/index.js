@@ -8,18 +8,16 @@ import {app} from './app.js'
 dotenv.config(
     { path: './.env' }
 );
-// const app = express();
-
-// app.use('/api/v1/user',userRouter);  
+ 
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
     api_key: process.env.CLOUDINARY_API_KEY, 
-    api_secret: process.env.CLOUDINARY_API_SECRET, // Fixed api_secret variable
+    api_secret: process.env.CLOUDINARY_API_SECRET, 
     secure: true
   });
   app.use(cors({
-    origin: 'http://localhost:3000',  // The URL of your frontend
-    credentials: true,  // Allow credentials (cookies, etc.)
+    origin: 'http://localhost:3000',  
+    credentials: true,  
 }));
 connectDB().then(()=>{
     app.on("error",(err)=>{

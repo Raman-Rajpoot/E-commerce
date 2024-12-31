@@ -13,35 +13,27 @@ import mongoose from 'mongoose';
 
 const addNewProductItem = asyncHandler(async (req, res) => {
   const { title, category, price, description, stock, ageCategory } = req.body;
-  console.log(title, category, price, description, stock, ageCategory);
+  
 
   if (!(title && category && price && description && stock && ageCategory)) {
     throw new ApiError(404, 'Product required information is missing');
   }
 
   const user = await User.findById(req.user?._id).select('-password -refreshToken');
-  console.log(user);
   if (!user) throw new ApiError(404, "Owner not exist/found");
 
   const owner = await Owner.findOne({ userInfo: user._id });
-  console.log("owner " ,owner);
   if (!owner) throw new ApiError(404, "Owner not exist/found");
 
   const productImage = req.file?.path;
-  // const p= req.files?.productImage[0]?.path;
-  console.log("image ",productImage, " files ",req.file);
   if (!productImage) throw new ApiError(400, "Product image not found");
-
-  // const productImgResponse = await uploadOnCloudinary(productImage);
-  // if (!productImgResponse) throw new ApiError(500, "Product image not uploaded on Cloudinary");
-
-  const newProduct = await Product.create({
+   const newProduct = await Product.create({
     title,
     category,
     price:price,
     description,
     stock,
-    owner: owner._id, // Assuming owner references are by ID
+    owner: owner._id, 
     productImage:  "not found",
     ageCategory
   });
@@ -49,7 +41,7 @@ const addNewProductItem = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponce(200, newProduct, "New product added successfully"));
 });
 
-// Change price function
+
 const changePrice = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { newPrice } = req.body;
@@ -62,7 +54,6 @@ const changePrice = asyncHandler(async (req, res) => {
     throw new ApiError(404 , "producr not found");
   }
   const updatedPrice = parseFloat(product.price);
-  console.log(updatedPrice, product.price)
   if(updatedPrice > newPrice){
     product.discount= ((updatedPrice - newPrice)*100)/updatedPrice;
   }
@@ -72,7 +63,6 @@ const changePrice = asyncHandler(async (req, res) => {
 
    
     product.price = newPrice;
-    console.log(product.price.toString());
     await product.save();
 
   return   res.status(200).json(200,new ApiResponce(200,  product,'Price updated successfully') );
@@ -145,9 +135,9 @@ const deleteReview = asyncHandler(async (req, res) => {
   if (reviewIndex === -1) {
     return res.status(404).json({ message: 'Review not found' });
   }
-  // console.log(product.reviews[reviewIndex]?.user?._id,"   ", req.user?._id)
+  console.log(product.reviews[reviewIndex]?.user?._id,"   ", req.user?._id)
   if(product.reviews[reviewIndex]?.user?._id.toString() !== req.user?._id.toString()){
-    // console.log("ERROR  ....")
+    console.log("ERROR  ....")
     throw new ApiError(404, "unauthorized user");
   }
   // Remove the review from the reviews array
@@ -176,7 +166,7 @@ const updateReview= asyncHandler(async (req,res)=>{
     return res.status(404).json({ message: 'Review not found' });
   }
   if(product.reviews[reviewIndex]?.user?._id.toString() !== req.user?._id.toString()){
-    // console.log("ERROR  ....")
+    console.log("ERROR  ....")
     throw new ApiError(404, "unauthorized user");
   }
    product.reviews[reviewIndex].rating= rating;

@@ -18,7 +18,7 @@ function ReviewPage() {
 
   useEffect(() => {
     if (!productId) {
-      navigate("/not-found"); // Navigate to a valid fallback route if productId is invalid
+      navigate("/not-found"); 
       return;
     }
 

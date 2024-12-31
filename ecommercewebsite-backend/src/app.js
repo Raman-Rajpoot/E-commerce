@@ -42,16 +42,11 @@ app.use(express.static("public"));  // public is the folder name
 app.use(cookieParser());
 
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended:true}));
 app.use('/api/v1/user',userRouter);  
 app.use('/api/v1/owner',ownerRouter);
 app.use('/api/v1/product',productRouter);
 
 app.use('/api/v1/payment', paymentRouter);
 app.use('/api/v1/reviews',reviewRouter); 
-// app.get('/protected', authenticateToken, (req, res) => {
-//     res.json({ message: 'This is a protected route', user: req.user });
-// }); 
 
 export {app}
