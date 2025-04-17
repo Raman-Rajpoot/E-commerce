@@ -92,7 +92,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const passwordCheck = await Existuser.isPasswordCorrect(password);
 
     if (!passwordCheck) throw new ApiError(400, "password is incorrect");
-    const token = await generateRefreshAcesssToken(Existuser._id);
+    // const token = await generateRefreshAcesssToken(Existuser._id);
     const { accessToken, refreshToken } = await generateRefreshAcesssToken(Existuser._id);
 
     if (!accessToken || !refreshToken) throw new ApiError(400, "Token not found")

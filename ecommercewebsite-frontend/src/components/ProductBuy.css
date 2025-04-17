@@ -94,31 +94,43 @@
    color:black;
    font-size: 1.25em;
 }
-.btns button{
-    width: 250px;
-    height: 33px;
-    border-radius: 1rem;
+.btns {
+    display: flex;
+    gap: 1rem;
     margin-top: 1.5rem;
-    /* display: flex;
-    flex-direction: column;
-    gap: 0.3rem; */
-    text-align: center;
+    flex-wrap: wrap;
+    justify-content: center; /* or space-between/space-evenly if needed */
+  }
+  
+  .btns button {
+    height: 40px;
+    border-radius: 1rem;
     font-weight: 500;
     outline: none;
     border: none;
     cursor: pointer;
-    }
-.buybtn{
-    background-color:  rgb(111, 255, 0);
-    color:#fff;
-    width: 100px;
-
-}   
-.cartbtn{
-    background-color: rgb(111, 255, 0);
-    color:#fff;
-    width: 100px;
-} 
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .buybtn {
+    background-color: rgb(217, 165, 75);
+    color: #fff;
+    width: 130px;
+  }
+  
+  .cartbtn {
+    background-color: rgb(187, 176, 140);
+    color: #fff;
+    width: 130px;
+  }
+  
+  /* Optional: visual feedback for disabled button */
+  .cartbtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
 .quantity-label{
     font-size: 1em;
     margin-bottom: 0.8rem;

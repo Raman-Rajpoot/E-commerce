@@ -122,7 +122,7 @@ const Item = ({
         //   return;
         // }
       
-          console.log(isexist)
+          // console.log(isexist)
           
             addCart(product={productID,productImage,productName,productNewPrice,productOldPrice});
         

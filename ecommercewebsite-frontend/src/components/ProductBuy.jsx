@@ -17,42 +17,137 @@ import ReviewPage from './ReviewPage.jsx';
 import LoginContext from '../Context/Login_context/LoginContext.js';
 
 function ProductBuy() {
-  const { buyitem, addbuyitem } = useContext(Buycontext);
+  const { buyitem } = useContext(Buycontext);
   const { cartitem, addCartItem } = useContext(Cartcontext);
   const Cart = useContext(MyContext);
   const navigate = useNavigate();
+  const Login_Context = useContext(LoginContext);
 
+  const [item, setItem] = useState(buyitem || JSON.parse(localStorage.getItem('buyitem')));
   const [quantity, setQuantity] = useState(1);
+  const [isCartPresent, setIsCartPresent] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const [exist, setExist] = useState(false);
-  const [item, setItem] = useState(buyitem || JSON.parse(localStorage.getItem('buyitem')));
-  const Login_Context = useContext(LoginContext);
-  useEffect(() => {
-    if (buyitem) {
-      setItem(buyitem);
-    }
-  }, [buyitem]);
+  const { counter, changeCounter } = useContext(MyContext);
 
+  //  Redirect if not logged in
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!Login_Context.user?.email) {
-      navigate('/login');  
-      return;
+      navigate('/login');
     }
-  }, []);
+  }, [Login_Context.user, navigate]);
 
-  const handleQuantityChange = (type) => {
-    setQuantity((prev) => {
-      if (type === 'increment' && prev < 9) return prev + 1;
-      if (type === 'decrement' && prev > 1) return prev - 1;
-      return prev;
+  //  Update local item when buyitem changes
+  useEffect(() => {
+    if (buyitem) setItem(buyitem);
+  }, [buyitem]);
+
+  //  Fetch the cart on mount, sync context & button state
+  useEffect(() => {
+    const fetchCart = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch('http://localhost:7000/api/v1/user/getCart', {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const data = await res.json();
+        if (res.ok) {
+          addCartItem(data.cart); // replace your cart context with server data
+          const found = data.cart.some(ci => ci.productID === item.productID);
+          setIsCartPresent(found);
+        } else {
+          console.error('Fetch cart failed:', data.message);
+        }
+      } catch (err) {
+        console.error('Error fetching cart:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (item?.productID) fetchCart();
+  }, [item, addCartItem]);
+
+  // Quantity controls
+  const handleQuantityChange = type =>
+    setQuantity(q => {
+      if (type === 'increment' && q < 9) return q + 1;
+      if (type === 'decrement' && q > 1) return q - 1;
+      return q;
     });
+
+  // Alert helper
+  const showAlert = wasExist => {
+    setExist(wasExist);
+    setIsAlertVisible(true);
+    setTimeout(() => setIsAlertVisible(false), 1200);
   };
 
-  const showAlert = (isExist) => {
-    setExist(isExist);
-    setIsAlertVisible(true);
-    setTimeout(() => setIsAlertVisible(false), 1000);
+  // Add to Cart
+  const handleAddToCart = async () => {
+    setLoading(true);
+    try {
+      const prdt = {
+        productId: item.productID,
+        productName: item.productName,
+        productImage: item.productImage,
+        productPrice: item.productNewPrice,
+        productOldPrice: item.productOldPrice || 0,
+        rating: 0.0,
+        stock: item.stock || 1,
+        category: item.category || 'kids',
+      };
+      const res = await fetch('http://localhost:7000/api/v1/user/addCart', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(prdt),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        addCartItem(data.data);
+        changeCounter(counter + 1);
+        setIsCartPresent(true);
+        showAlert(false); // false = just added
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (err) {
+      console.error('Add to cart error:', err);
+      showAlert(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //  Remove from Cart
+  const handleRemoveFromCart = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('http://localhost:7000/api/v1/user/removecart', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productID: item.productID }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        addCartItem(data.cart);
+        changeCounter(Math.max(0, counter - 1));
+        setIsCartPresent(false);
+        showAlert(true); // true = removed
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (err) {
+      console.error('Remove cart error:', err);
+      showAlert(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!item) return <div className="empty">Product not found</div>;
@@ -62,75 +157,57 @@ function ProductBuy() {
   return (
     <div>
       <div className="pt">
+        {/* Image */}
         <div className="productImg">
-          <img src={item.productImage} alt="img" />
+          <img src={item.productImage} alt={item.productName} />
         </div>
+
+        {/* Details */}
         <div className="pt2">
           <div className="desc">{item.productName}</div>
-
           <div className="rating">
-            <div>
-              {[...Array(4)].map((_, i) => (
-                <img key={i} src={starIcon} alt="star" />
-              ))}
-            </div>
-            <div>4.0</div>
+            {[...Array(4)].map((_, i) => (
+              <img key={i} src={starIcon} alt="star" />
+            ))}
+            <span>4.0</span>
           </div>
-
           <div className="price">
             <div className="oldPrice">${item.productOldPrice}</div>
             <div className="newPrice">${item.productNewPrice}</div>
           </div>
-
-          {/* Policies */}
           <div className="policy">
             <div className="replacement">
-              <img src={replacement} alt="img" />
-              <div>7 days replacement policy</div>
+              <img src={replacement} alt="replacement" />
+              <span>7 days replacement policy</span>
             </div>
             <div className="delivery">
-              <img src={freedlvry} alt="img" />
-              <div>Free delivery</div>
+              <img src={freedlvry} alt="free delivery" />
+              <span>Free delivery</span>
             </div>
             <div className="securedTransitions">
-              <img src={cashOndly} alt="img" />
-              <div>Secured Transactions</div>
+              <img src={cashOndly} alt="secured" />
+              <span>Secured Transactions</span>
             </div>
           </div>
-
-          {/* Size Selector */}
           <div className="size">
-            <div className="size-label">Size :</div>
-            <select name="Sizes" id="sizeSelector">
-              {['S', 'M', 'L', 'XL'].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
+            <label htmlFor="sizeSelector" className="size-label">Size :</label>
+            <select id="sizeSelector">
+              {['S','M','L','XL'].map(s => (
+                <option key={s} value={s}>{s}</option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* Quantity and Actions */}
+        {/* Quantity & Actions */}
         <div className="pt3">
           <div className="cal">
             <div className="quantity-label">Quantity :</div>
             <div className="quantity">
-              <img
-                src={plus}
-                alt="plus"
-                className="plus"
-                onClick={() => handleQuantityChange('increment')}
-              />
-              <div>{quantity}</div>
-              <img
-                src={minus}
-                alt="minus"
-                className="minus"
-                onClick={() => handleQuantityChange('decrement')}
-              />
+              <img src={plus} alt="+" onClick={() => handleQuantityChange('increment')} />
+              <span>{quantity}</span>
+              <img src={minus} alt="-" onClick={() => handleQuantityChange('decrement')} />
             </div>
-
             <div className="tprice">
               <div className="tprice-label">Total Price :</div>
               <div className="tprice-amt">${totalPrice}</div>
@@ -138,24 +215,19 @@ function ProductBuy() {
           </div>
 
           <div className="btns">
-            <button className="buybtn" onClick={() => navigate('/payment', { state: { totalPrice } })}>
+            <button
+              className="buybtn"
+              onClick={() => navigate('/payment', { state: { totalPrice } })}
+            >
               BUY
             </button>
 
             <button
               className="cartbtn"
-              onClick={() => {
-                const isExist = cartitem.some(
-                  (cartItem) => cartItem.productID === item.productID
-                );
-                if (!isExist) {
-                  Cart.changeCounter();
-                  addCartItem([item, ...cartitem]);
-                }
-                showAlert(isExist);
-              }}
+              disabled={loading}
+              onClick={isCartPresent ? handleRemoveFromCart : handleAddToCart}
             >
-              ADD TO CART
+              {isCartPresent ? 'REMOVE CART' : 'ADD TO CART'}
             </button>
 
             {isAlertVisible && <Alert exist={exist} />}

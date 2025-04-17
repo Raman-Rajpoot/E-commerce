@@ -132,8 +132,7 @@ function ReviewPage() {
           body: JSON.stringify({ reviewId }),
         });
 
-        if (!response.ok) throw new Error("Failed to delete review");
-
+      
         setReviews(prev => prev.filter(review => review._id !== reviewId));
       } catch (error) {
         console.error("Error deleting review:", error);
@@ -202,8 +201,8 @@ function ReviewPage() {
               <p className="review-date">Reviewed on: {review.date}</p>
               {Login_Context.user?._id === review.userId && (
                 <div className="review-actions">
-                  <button className="edit-btn" onClick={() => handleEdit(review)}>Edit</button>
-                  <button className="delete-btn" onClick={() => handleDelete(review._id)}>Delete</button>
+                  <button className="action-btn edit-btn" onClick={() => handleEdit(review)}>Edit</button>
+                  <button className="action-btn delete-btn" onClick={() => handleDelete(review._id)}>Delete</button>
                 </div>
               )}
             </li>

@@ -161,12 +161,14 @@
   color: #555;
 }
 
-/* Action buttons */
+
 .review-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px; /* spacing between buttons */
+  margin-top: 10px;
 }
 
+/* Already shared, keeping for reference */
 .action-btn {
   padding: 8px 12px;
   font-size: 14px;
@@ -194,6 +196,7 @@
 .delete-btn:hover {
   background-color: #e53935;
 }
+
 
 /* Empty state and loading message */
 .loading-message,

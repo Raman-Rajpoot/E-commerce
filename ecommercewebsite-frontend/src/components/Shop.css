@@ -54,6 +54,20 @@
         padding: 1rem;  
     }
 } */
+@media screen and (max-width: 1150px) {
+    .Shop_img{
+        width: 37%;
+        /* height: 5vh; */
+        /* object-fit: cover; */
+    }
+} 
+@media screen and (max-width: 1050px) {
+    .Shop_img{
+        width: 50%;
+        /* height: 5vh; */
+        /* object-fit: cover; */
+    }
+}
 @media screen and (max-width: 950px) {
     .shopText1{
         font-size: 0.81em;
@@ -63,9 +77,9 @@
         
     }
     .Shop_img{
-        width: 70vw;
-        /* height: 85vh; */
-        object-fit: contain;
+        width: 45%;
+        /* height: 5vh; */
+        object-fit: cover;
     }
     .shopBtn{
         width: 80%;
@@ -76,13 +90,13 @@
 }
 @media screen and (max-width: 750px) {
     .Shop_img{
-        width: 60vw;
+        width: auto;
         object-fit: contain;
     }
     .Shop_img{
        /* flex: 1; */
-       width: auto;
-        height: 85vh;
+       width: 45%;
+        /* height: 85vh; */
         object-fit: cover;
     }
 }
@@ -92,8 +106,8 @@
     }
     .Shop_img{
         /* flex: 1; */
-        width: auto;
-         height: 83vh;
+        width: 50%;
+         /* height: 83vh; */
          object-fit: cover;
      }
 }
@@ -125,19 +139,9 @@
         margin-right: auto;
     }
 }
-@media screen and (max-width: 400px) {
-    .Shop_img{
-        width: 90vw;
-        object-fit: cover;
-        
-    }
-}
+
 @media screen and (max-width: 300px) {
-    .Shop_img{
-        width: 90vw;
-        object-fit: cover;
-        
-    }
+   
     .shopText1{
         font-size: 0.51em;
     }

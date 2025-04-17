@@ -40,7 +40,7 @@ const productSchema = new mongoose.Schema({
      },
      category: {
       type: String,
-      enum: ['male', 'female', 'kids'],
+      enum: ['male', 'female', 'kid'],
       required: true,
     },
      ageRange: {
