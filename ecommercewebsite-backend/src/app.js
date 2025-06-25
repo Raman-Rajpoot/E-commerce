@@ -19,8 +19,7 @@ cache.on('error', (err) => {
     console.error('Redis error:', err);
   });
 const corsOpt = {
-    
-        origin:'https://ecommerce-backend-j9hr.onrender.com',
+       origin:'https://ecommerce-frontend-jq4t.onrender.com',
         methods : "GET,POST,PATCH,PUT,DELETE",
         credentials: true
     
