@@ -27,7 +27,7 @@ const Login = () => {
                 body: JSON.stringify({ email, password }),
                 credentials: 'include'
             });
-
+console.log("response" , response)
             if (response.ok) {
                 const data = await response.json();
 

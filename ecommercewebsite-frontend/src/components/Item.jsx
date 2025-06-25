@@ -124,7 +124,7 @@ const Item = ({
       
           // console.log(isexist)
           
-            addCart(product={productID,productImage,productName,productNewPrice,productOldPrice});
+            addCart({productID,productImage,productName,productNewPrice,productOldPrice});
         
         showAlert()
         }}>Add Cart</button>
