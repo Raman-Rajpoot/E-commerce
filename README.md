@@ -1,13 +1,29 @@
-Here’s an updated README that includes information for both the frontend and backend of your e-commerce project. I've incorporated details about the backend based on your specifications:
-
----
-
 # **Ecommerce Website**
 
 Welcome to the Ecommerce Website repository! This project includes both the frontend and backend components for an online platform to buy and sell a diverse range of products.
 
 ---
+## **Link**
 
+<a>https://ecommerce-frontend-jq4t.onrender.com</a>
+
+---
+
+## **Images**
+
+![Screenshot 2025-06-25 204730](https://github.com/user-attachments/assets/2701f658-8a31-455f-a632-1c24fe0fa1f5)
+
+![image](https://github.com/user-attachments/assets/d576a29e-6d28-426d-ba56-24ca09791b1a)
+
+![Screenshot 2025-06-25 204932](https://github.com/user-attachments/assets/986f04c6-31c6-4fc5-a4f6-4a2c320a62b2)
+
+![Screenshot 2025-06-25 204914](https://github.com/user-attachments/assets/a3a80508-abf3-40de-9099-0e62a1878a8f)
+
+![Screenshot 2025-06-25 205005](https://github.com/user-attachments/assets/a29c0d0b-6188-490c-a99c-80a33caae373)
+
+![image](https://github.com/user-attachments/assets/d3093307-9834-4a19-94a1-fbf09638541f)
+
+---
 ## **Frontend**
 
 ### **Features**
@@ -15,8 +31,7 @@ Welcome to the Ecommerce Website repository! This project includes both the fron
 - **Product Catalog**: Browse a variety of products organized into categories.
 - **Shopping Cart**: Add products to your cart for easy checkout.
 - **Responsive Design**: Mobile-friendly interface that adapts to all device sizes.
-- **payment system**: Secure payment processing with Stripe.
-- **Review System** : Allows users to submit reviews for purchased products.
+- **User Details**: Manage a profile page for user datails.
   
 ### **Technologies Used**
 
@@ -27,7 +42,7 @@ Welcome to the Ecommerce Website repository! This project includes both the fron
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/ecommerce-frontend.git
+   git clone https://github.com/Raman-Rajpoot/ecommerce-frontend.git
    ```
 
 2. **Navigate into the project directory**:
@@ -58,9 +73,10 @@ Welcome to the Ecommerce Website repository! This project includes both the fron
 ### **Features**
 
 - **User Authentication**: Register and log in users.
-- **Product Management**: Manage product listings and categories.
 - **Shopping Cart Management**: Handle cart operations including adding, removing, and updating items.
-- **Order Processing**: Process and manage customer orders.
+- **payment system**: Secure payment processing with Stripe.
+- **Review System** : Allows users to submit reviews for purchased products.
+
 
 ### **Technologies Used**
 
@@ -73,7 +89,7 @@ Welcome to the Ecommerce Website repository! This project includes both the fron
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/ecommerce-backend.git
+   git clone https://github.com/Raman-Rajpoot/ecommerce-backend.git
    ```
 
 2. **Navigate into the project directory**:
@@ -99,25 +115,4 @@ Welcome to the Ecommerce Website repository! This project includes both the fron
 
 ---
 
-## **Contributing**
 
-We welcome contributions to both the frontend and backend of this e-commerce platform. Whether you are a developer, designer, or just enthusiastic about improving the project, you can:
-
-- **Submit pull requests** for new features or bug fixes.
-- **Report issues** to help us track and resolve problems.
-- **Suggest new features** to enhance the project.
-
----
-
-## **Contact**
-
-For questions, suggestions, or feedback regarding either the frontend or backend, please contact us at:  
-📧 **Email**: [ramanrajpoot42@gmail.com](mailto:ramanrajpoot42@gmail.com)
-
----
-
-We appreciate your interest and contributions to the project!
-
----
-
-Feel free to adjust any specific details or instructions as needed.
