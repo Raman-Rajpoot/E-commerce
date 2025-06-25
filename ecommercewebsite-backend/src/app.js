@@ -20,7 +20,7 @@ cache.on('error', (err) => {
   });
 const corsOpt = {
     
-        origin:'http://localhost:3000',
+        origin:'https://ecommerce-backend-j9hr.onrender.com',
         methods : "GET,POST,PATCH,PUT,DELETE",
         credentials: true
     
