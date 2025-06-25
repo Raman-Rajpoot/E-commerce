@@ -19,12 +19,13 @@ cache.on('error', (err) => {
     console.error('Redis error:', err);
   });
 const corsOpt = {
-       origin:'https://ecommerce-frontend-jq4t.onrender.com',
-        methods : "GET,POST,PATCH,PUT,DELETE",
-        credentials: true
-    
-}
+    origin: 'https://ecommerce-frontend-jq4t.onrender.com',
+    methods: "GET,POST,PATCH,PUT,DELETE",
+    credentials: true
+};
+
 app.use(cors(corsOpt));
+app.options('*', cors(corsOpt));
 
 app.use(bodyParser.json({
     limit: "20kb" 
