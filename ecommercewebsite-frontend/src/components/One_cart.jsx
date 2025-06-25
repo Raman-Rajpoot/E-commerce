@@ -26,7 +26,7 @@ function One_cart({
     try {
       const productId = parseInt(id, 10); 
 
-      const response = await fetch('http://localhost:7000/api/v1/user/removecart', {
+      const response = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/removecart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

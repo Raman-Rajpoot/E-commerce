@@ -25,7 +25,7 @@ function ReviewPage() {
     async function fetchReviews() {
       setErrorMessage("");
       try {
-        const response = await fetch(`http://localhost:7000/api/v1/reviews/get/${productId}`);
+        const response = await fetch(`https://ecommerce-backend-j9hr.onrender.com/api/v1/reviews/get/${productId}`);
         if (!response.ok) throw new Error("Failed to fetch reviews");
 
         const data = await response.json();
@@ -76,8 +76,8 @@ function ReviewPage() {
 
     try {
       const url = editReview
-        ? `http://localhost:7000/api/v1/reviews/update/${editReview._id}`
-        : `http://localhost:7000/api/v1/reviews/add/${productId}`;
+        ? `https://ecommerce-backend-j9hr.onrender.com/api/v1/reviews/update/${editReview._id}`
+        : `https://ecommerce-backend-j9hr.onrender.com/api/v1/reviews/add/${productId}`;
 
       const method = editReview ? "PUT" : "POST";
       const response = await fetch(url, {
@@ -125,7 +125,7 @@ function ReviewPage() {
   const handleDelete = async (reviewId) => {
     if (window.confirm("Are you sure you want to delete this review?")) {
       try {
-        const response = await fetch(`http://localhost:7000/api/v1/reviews/delete`, {
+        const response = await fetch(`https://ecommerce-backend-j9hr.onrender.com/api/v1/reviews/delete`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

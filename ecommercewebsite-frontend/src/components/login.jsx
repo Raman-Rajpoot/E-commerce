@@ -19,7 +19,7 @@ const Login = () => {
         setErrorMessage(""); 
 
         try {
-            const response = await fetch('http://localhost:7000/api/v1/user/login', {
+            const response = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/login', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

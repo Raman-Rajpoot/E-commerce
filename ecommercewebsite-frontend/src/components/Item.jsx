@@ -73,7 +73,7 @@ const Item = ({
         return -1;
       }
 
-      const response = await fetch('http://localhost:7000/api/v1/user/addCart', {
+      const response = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/addCart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

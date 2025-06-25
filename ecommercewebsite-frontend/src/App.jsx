@@ -23,7 +23,7 @@ const App = () => {
     // Fetch and validate current user based on token
     const validateTokenAndFetchUser = async () => {
         try {
-            const response = await fetch('http://localhost:7000/api/v1/user/getCurrentUser', {
+            const response = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/getCurrentUser', {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },

@@ -28,7 +28,7 @@ function Profile() {
     // Fetch user details on component mount
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch('http://localhost:7000/api/v1/user/getUserInfo', {
+        const response = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/getUserInfo', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${userInformation.token}` 
@@ -79,7 +79,7 @@ function Profile() {
 
   const handleSave = async (updatedUser) => {
     try {
-      const response = await fetch('http://localhost:7000/api/v1/user/updateAddress', {
+      const response = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/updateAddress', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ function Profile() {
   
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:7000/api/v1/user/logOut', {
+      const response = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/logOut', {
         method: 'POST',
         credentials: 'include' 
       });

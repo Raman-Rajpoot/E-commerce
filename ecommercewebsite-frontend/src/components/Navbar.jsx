@@ -28,22 +28,6 @@ const useDebounce = (value, delay) => {
   return debouncedValue;
 };
 
-// SearchBar Component
-// const SearchBar = ({ searchQuery, handleSearchChange, handleSearchSubmit, handleKeyDown }) => (
-//   <div className="search-icon-container">
-//     <input
-//       type="text"
-//       className="search-input"
-//       value={searchQuery}
-//       onChange={handleSearchChange}
-//       placeholder="Search..."
-//       onKeyDown={handleKeyDown}
-//     />
-//     <button className="search-button" onClick={handleSearchSubmit}>
-//       <FontAwesomeIcon icon={faSearch} />
-//     </button>
-//   </div>
-// );
 
 const Navbar = () => {
   const userInfo = useContext(LoginContext);
@@ -83,27 +67,11 @@ const Navbar = () => {
 
   const [select, changeSelected] = useState(path);
 
-  // const handleSearchChange = (e) => {
-  //   setSearchQuery(e.target.value);
-  // };
 
-  // const handleSearchSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (searchQuery) {
-  //     setSearchHistory(prevHistory => [searchQuery, ...prevHistory]); // Use functional update
-  //   }
-  //   setSearchQuery('');
-  // };
-
-  // const handleKeyDown = (e) => {
-  //   if (e.key === 'Enter') {
-  //     handleSearchSubmit(e);
-  //   }
-  // };
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:7000/api/v1/user/logOut', {
+      const response = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/logOut', {
         method: 'POST',
         credentials: 'include'
       });
@@ -134,7 +102,7 @@ const Navbar = () => {
     const fetchCart = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:7000/api/v1/user/getCart', {
+        const response = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/getCart', {
           method: "GET",
           headers: {
             'Content-Type': 'application/json'

@@ -49,7 +49,7 @@ function ProductBuy() {
     const fetchCart = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:7000/api/v1/user/getCart', {
+        const res = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/getCart', {
           method: 'GET',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -100,7 +100,7 @@ function ProductBuy() {
         stock: item.stock || 1,
         category: item.category || 'kids',
       };
-      const res = await fetch('http://localhost:7000/api/v1/user/addCart', {
+      const res = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/addCart', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -127,7 +127,7 @@ function ProductBuy() {
   const handleRemoveFromCart = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:7000/api/v1/user/removecart', {
+      const res = await fetch('https://ecommerce-backend-j9hr.onrender.com/api/v1/user/removecart', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
