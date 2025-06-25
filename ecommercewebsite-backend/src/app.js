@@ -19,9 +19,20 @@ cache.on('error', (err) => {
     console.error('Redis error:', err);
   });
 const corsOpt = {
-    origin: 'https://ecommerce-frontend-jq4t.onrender.com',
-    methods: "GET,POST,PATCH,PUT,DELETE",
-    credentials: true
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'https://ecommerce-frontend-jq4t.onrender.com',
+      'http://localhost:3000' 
+    ];
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); 
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: "GET,POST,PATCH,PUT,DELETE",
+  credentials: true
 };
 
 app.use(cors(corsOpt));
