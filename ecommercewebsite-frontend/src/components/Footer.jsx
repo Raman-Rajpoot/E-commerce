@@ -29,7 +29,7 @@ const Footer = () => {
         <div>
             <h2>Contact Info.</h2>
             <h4>mail: <a href="mailto:ramanrajpoot42@gmail.com">ramanrajpoot42@gmail.com</a></h4>
-            <h4>Telephone No.: <a href="tel:+917879216400">+917879216400</a></h4>
+            <h4>Telephone No.: <a href="tel:+91787921XXXX">+91787921XXXX</a></h4>
             <h4>Instragram : <a href="myInstram">raman raj</a></h4>
         </div>
         <div>

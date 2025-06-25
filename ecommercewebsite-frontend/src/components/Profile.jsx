@@ -97,7 +97,11 @@ function Profile() {
 
       const result = await response.json();
       if (response.ok) {
-        setUserInfo(result.data);
+        setUserInfo(prev => ({
+            ...prev,        
+            ...result.data   
+        }));
+
         setIsEditing(false);
       } else {
         console.error(result.message);

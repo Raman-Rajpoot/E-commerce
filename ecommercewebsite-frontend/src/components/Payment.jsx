@@ -25,7 +25,7 @@ const CheckoutForm = () => {
             const response = await fetch('http://localhost:7000/api/v1/payment/create-payment-intent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ totalPrice: totalPrice * 100 }) 
+                body: JSON.stringify({ amount: totalPrice * 100 }) 
             });
 
             if (!response.ok) {

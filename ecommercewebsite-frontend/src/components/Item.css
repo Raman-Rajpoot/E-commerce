@@ -49,13 +49,13 @@ body{
     
     font-size: 0.8em;
     outline: none;
-    border: 0.5px solid black;
-    border-radius: 0.8rem;
+    border: 0.5px solid rgba(0, 0, 0, 0.689);
+    border-radius: 0.63rem;
     margin-bottom: 0.45rem;
-    padding: 0.35rem;
+    padding: 0.35rem 0.65rem;
     cursor: pointer;
     font-weight: 500;
-    background-color: #28a745;
+    background-color: #1fb726;
     color: white;
     /* border: none; */
 }

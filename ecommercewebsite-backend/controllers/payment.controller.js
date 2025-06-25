@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 export const createPaymentIntent = async (req, res) => {
     const { amount } = req.body;
-
+    console.log(amount)
     if (!amount || typeof amount !== 'number') {
         return res.status(400).json({ error: 'Amount is required and must be a valid number.' });
     }

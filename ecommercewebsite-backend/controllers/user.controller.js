@@ -313,7 +313,7 @@ const addAndUpdateAddress = asyncHandler(async (req, res) => {
     // console.log("Address:", address, "Country:", country, "State:", state, "City:", city, "Zip Code:", zipCode);
 
     // Check if all required fields are provided
-    if (!(address && country && state && city && zipCode)) {
+    if (!(address || country || state || city || zipCode)) {
         throw new ApiError(400, "All address fields are required");
     }
     if (!address) address = "";

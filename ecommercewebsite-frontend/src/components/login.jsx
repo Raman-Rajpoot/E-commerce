@@ -5,8 +5,8 @@ import LoginContext from '../Context/Login_context/LoginContext';
 import Cartcontext from '../Context/Cart_contex/Cart_contex';
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("demo@gmail.com");
+    const [password, setPassword] = useState("Demo@001");
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
